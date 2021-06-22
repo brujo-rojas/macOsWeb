@@ -4,7 +4,7 @@ let getCSSValue = function (varName) {
   return getComputedStyle(root).getPropertyValue(varName);
 };
 
-function debounce(func, timeout = 10){
+function debounce(func, timeout = 50){
   let timer;
   return (...args) => {
     clearTimeout(timer);
@@ -12,73 +12,97 @@ function debounce(func, timeout = 10){
   };
 }
 
-let dock     = root.querySelector(".dock-container");
-let icons    = root.querySelectorAll(".icon-container");
-let iconSize = parseFloat(getCSSValue("--icon-size"));
-let space    = 250;
-let scale    = 1;
+let dock             = root.querySelector(".dock-container");
+let icons            = root.querySelectorAll(".icon-container");
+let iconSize         = parseFloat(getCSSValue("--icon-size"));
+let space            = 250;
+let scale            = 1;
 let scaleMagnificent = 2;
-let lastMouseX = 0;
+let lastMouseX       = 0;
+let isMouseOnDock    = false;
 
 let refreshIconSize = function (e, iconContainer) {
-  let icon = iconContainer.children[0];
-  let mouseX = e.clientX;
-  let iconX = icon.getBoundingClientRect().x; //left of icon
-  iconX += icon.getBoundingClientRect().width / 2; //centered icon
-  let diffpx = Math.abs(mouseX - iconX);
-  let aditionalScale = diffpx < space ? (space - diffpx) / space : 0;
-  aditionalScale *= scaleMagnificent;
-  let iconScale = scale + (aditionalScale > 0 ? aditionalScale : 0);
+  let icon            = iconContainer.children[0];
+  let mouseX          = e.clientX;
+  let iconX           = icon.getBoundingClientRect().x; //left of icon
+  iconX              += icon.getBoundingClientRect().width / 2; //centered icon
+  let diffpx          = Math.abs(mouseX - iconX);
+  let aditionalScale  = diffpx < space ? (space - diffpx) / space : 0;
+  aditionalScale     *= scaleMagnificent;
+  let iconScale       = scale + (aditionalScale > 0 ? aditionalScale : 0);
 
-
-
-  iconContainer.style.width = iconScale * iconSize + "px";
+  iconContainer.style.width = "calc("+iconScale * iconSize + "px + "+ (iconScale * 0.5 )+"rem)"; 
   icon.style.transform = "scale(" + iconScale + ")";
 };
 
 let refreshDock = function (e) {
-  console.log("refreshDock")
   let mouseX = e.clientX;
   if(mouseX != lastMouseX){
-    dock.style.paddingTop = iconSize * scaleMagnificent + "px";
+    let dockX = dock.getBoundingClientRect().x;
+    let dockWidth = dock.getBoundingClientRect().width;
+    let diffMax = space ;
+
+    let diffLeft = diffMax - (mouseX - dockX);
+    diffLeft = diffLeft >  diffMax ?   diffMax : diffLeft;
+    diffLeft = diffLeft > 0 ? diffLeft : 0;
+
+    let diffRight =  diffMax - ((dockX + dockWidth) - mouseX);
+    diffRight = diffRight >  diffMax ?  diffMax : diffRight;
+    diffRight = diffRight > 0 ? diffRight : 0;
+
+    console.log("mouseX - dockWidth", mouseX, dockWidth);
+    console.log("diffLeft - diffRight", diffLeft, diffRight);
+
     lastMouseX = mouseX;
 
-    //dock.style.paddingLeft = mouseX  + "px";
+    let marginLeft =  diffLeft/2 + "px";
+    let marginRight =  diffRight/2 + "px";
+    let paddingTop = iconSize * scaleMagnificent + "px";
+    dock.style.cssText = "margin-left:"+marginLeft+"; margin-right:"+marginRight+"; padding-top:"+paddingTop;
     //dock.style.paddingRight = iconSize * scaleMagnificent*0.5 + "px";
     icons.forEach((iconContainer) => refreshIconSize(e, iconContainer));
-  setTimeout(() => {
-    dock.classList.remove("clear");
-  },1000);
+    /*setTimeout(() => {
+      dock.classList.remove("clear");
+    },1000);*/
   }
   e.stopPropagation();
 };
 
 
-let clearDock = function (e) {
+let clearDock = function () {
+  if(isMouseOnDock) return false;
+  console.log("-------- clear dock ------");
   dock.style.transform = "scaleY(1)";
   icons.forEach((iconContainer) => {
     let icon = iconContainer.children[0];
-    iconContainer.style.width = iconSize + "px";
+    iconContainer.style.width = "calc("+iconSize + "px + 0.5rem)";
     icon.style.transform = "scale(1)";
     dock.style.paddingTop = "0px";
-    dock.style.paddingLeft = "0px";
-    dock.style.paddingRight = "0px";
+    dock.style.marginLeft = "0px";
+    dock.style.marginRight = "0px";
   });
     dock.classList.add("clear");
-
 };
 
 let refreshDockDebounced = null;
 
 dock.addEventListener("mouseenter", (e) => {
   //refreshDockDebounced = debounce(() => refreshDock(e));
+  isMouseOnDock = true;
   refreshDock(e);
 });
+
 dock.addEventListener("mousemove", (e) => {
   //refreshDockDebounced();
   refreshDock(e);
 });
-dock.addEventListener("mouseleave", (e) => clearDock(e));
+
+
+let clearDockDebounce = debounce(() => clearDock());
+dock.addEventListener("mouseleave", (e) => {
+  isMouseOnDock = false;
+  clearDockDebounce(e)
+});
 
 
 
@@ -99,19 +123,20 @@ function setActiveWindow(elem){
   elem.classList.add("active");
 }
 
-function isDraggableSection(e){
+function isDraggable(e){
   let rect = activeWindow.getBoundingClientRect();
   let mouseXOnWindow = e.clientX - rect.x;
   let mouseYOnWindow = e.clientY - rect.y;
 
   if(mouseXOnWindow > rect.width - 30) return false;
   if(mouseYOnWindow > rect.height - 30) return false;
+  if(activeWindow.classList.contains("maximize")) return false;
 
   return true
 }
 
 function onDrag(e) {
-  if(isDraggableSection(e)){
+  if( isDraggable(e)){
     let targetStyle = window.getComputedStyle(activeWindow)
     activeWindow.style.left = parseInt(targetStyle .left) + e.movementX + 'px'
     activeWindow.style.top = parseInt(targetStyle .top) + e.movementY + 'px'
@@ -216,4 +241,20 @@ let dropdownButtons = root.querySelectorAll("[has-dropdown]");
 dropdownButtons.forEach((ddb) => {
   ddb.addEventListener("click", (e) => toggleMenuItem(ddb, e));
 });
+
+
+
+
+
+let toggleMaximizeWindow = root.querySelectorAll("[maximize-window]");
+
+toggleMaximizeWindow.forEach(btn => {
+  let elemWindow = btn.closest(".window");
+  if(elemWindow){
+    btn.addEventListener("click", (e) => {
+      elemWindow.classList.toggle("maximize");
+    })
+  }
+})
+
 

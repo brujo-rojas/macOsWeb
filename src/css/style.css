@@ -1,7 +1,7 @@
 :root {
   --accentColor: rgba(10, 130, 255, 1);
   --topbarHeight: 1.5rem;
-  --icon-size: 24px;
+  --icon-size: 36px;
   --color-title-bar: rgba(60, 60, 60, 0.8);
   --color-header-view: rgba(30, 30, 30, 0.8);
   --color-window-background: rgba(40, 40, 40, 0.7);
@@ -33,8 +33,8 @@ html {
   user-select: none; }
 
 #macos .has-blur-bg {
-  -webkit-backdrop-filter: saturate(180%) blur(30px);
-  backdrop-filter: saturate(180%) blur(2px); }
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  backdrop-filter: saturate(180%) blur(20px); }
 
 #macos .has-inner-glow {
   box-shadow: inset 0px 0px 4px rgba(255, 255, 255, 0.1), inset 0px 0px 1px rgba(255, 255, 255, 0.3); }
@@ -217,18 +217,24 @@ html {
       border-radius: 20px;
       z-index: 6;
       position: relative; }
+      #macos .widgets .widgets-container .widget.widget-double {
+        width: calc(150px * 2 + 1rem); }
       #macos .widgets .widgets-container .widget.widget-clock .widget-clock-circle {
         background: #343436;
         margin: 0.45rem;
         border-radius: 50%;
         width: calc(100% - 0.9rem);
         height: calc(100% - 0.9rem); }
+      #macos .widgets .widgets-container .widget.widget-calendar {
+        background: #1e1e1e; }
+      #macos .widgets .widgets-container .widget.widget-weather {
+        background: linear-gradient(0deg, #303443 0%, #0b0912 100%); }
       #macos .widgets .widgets-container .widget.widget-podcast {
-        background: linear-gradient(0deg, #020024 0%, #2498b0 100%); }
+        background: linear-gradient(0deg, #9700c5 0%, #e63dfc 100%); }
 
 #macos .window {
-  min-width: 500px;
-  min-height: 300px;
+  min-width: 100px;
+  min-height: 100px;
   border-radius: 8px;
   position: absolute;
   left: 10%;
@@ -240,13 +246,16 @@ html {
   background: rgba(40, 40, 40, 0.8);
   box-shadow: 0px 0px 0px 1px black, 0 20px 70px rgba(0, 0, 0, 0.55);
   border: 1px solid rgba(255, 255, 255, 0.2); }
+  #macos .window.maximize {
+    width: 100%; }
   #macos .window.active {
     z-index: 2; }
   #macos .window .window-top {
     height: 2.85rem;
     background: rgba(55, 55, 55, 0.9);
     border-bottom: 1px solid black;
-    padding: 0.5rem 0.75rem; }
+    padding: 0.5rem 0.75rem;
+    display: flex; }
     #macos .window .window-top .window-actions-icon {
       display: flex;
       flex-flow: row; }
@@ -262,14 +271,55 @@ html {
           background: #ffbc00; }
         #macos .window .window-top .window-actions-icon > div.green {
           background: #00d541; }
+    #macos .window .window-top .window-icons {
+      flex: 0 0 auto;
+      display: flex;
+      align-items: center; }
+      #macos .window .window-top .window-icons .icon-button {
+        font-size: 0.875rem;
+        padding: 0.1rem 0.5rem;
+        border-radius: 3px;
+        margin: 0.25rem;
+        color: white; }
+        #macos .window .window-top .window-icons .icon-button:hover {
+          background: rgba(255, 255, 255, 0.1); }
+    #macos .window .window-top .url-input {
+      flex: 1 0 300px;
+      width: auto; }
+      #macos .window .window-top .url-input input {
+        background: rgba(255, 255, 255, 0.1);
+        width: 100%;
+        height: auto;
+        border: none;
+        border-radius: 5px;
+        line-height: 1.5rem;
+        color: white;
+        text-align: center;
+        outline: none; }
   #macos .window .window-tabs {
-    height: 1.5rem;
-    background: rgba(15, 15, 15, 0.8); }
+    flex: 1 1 auto;
+    background: rgba(15, 15, 15, 0.8);
+    display: flex;
+    flex-flow: row;
+    justify-items: stretch; }
+    #macos .window .window-tabs .tab {
+      height: 1.5rem;
+      flex: 1 0 auto;
+      justify-items: center;
+      display: flex; }
+      #macos .window .window-tabs .tab.active {
+        background: rgba(55, 55, 55, 0.9); }
+      #macos .window .window-tabs .tab .tab-title {
+        font-size: 0.875rem;
+        line-height: 1.25rem;
+        flex: 1 1 auto;
+        text-align: center;
+        color: white; }
   #macos .window .window-container {
-    flex: 1 1 auto; }
+    flex: 1 1 auto;
+    overflow: scroll; }
 
 #macos .dock-outside {
-  background: rgba(100, 0, 0, 0.3);
   width: 100%;
   font-size: var(--icon-size);
   bottom: 0.25rem;
@@ -278,20 +328,11 @@ html {
   display: flex;
   justify-content: center; }
   #macos .dock-outside .dock-container {
-    padding-top: 1px;
-    z-index: 15;
-    background: rgba(0, 100, 0, 0.3);
-    transition: 0.3s all ease; }
-    #macos .dock-outside .dock-container.clear .icon-container {
-      transition: 0.3s all ease; }
-      #macos .dock-outside .dock-container.clear .icon-container .icon {
-        transition: 0.3s all ease; }
+    z-index: 15; }
     #macos .dock-outside .dock-container .dock {
       flex: 0 0 auto;
       border-radius: 1rem;
-      height: calc(var(--icon-size) + 0.75em);
       background: rgba(40, 40, 40, 0.6);
-      padding: 0.125em;
       display: flex;
       align-items: flex-end;
       border: 1px solid rgba(255, 255, 255, 0.18);
@@ -299,36 +340,58 @@ html {
       #macos .dock-outside .dock-container .dock .icon-container {
         margin-top: 0.125em;
         margin-bottom: 0.25em;
-        margin-left: 0.2em;
-        margin-right: 0.2em;
-        width: var(--icon-size);
+        width: calc(var(--icon-size) + 0.5rem);
         text-align: center;
         position: relative; }
+        #macos .dock-outside .dock-container .dock .icon-container.has-dot:after {
+          content: "";
+          display: block;
+          position: absolute;
+          width: 4px;
+          height: 4px;
+          border-radius: 50%;
+          background: rgba(255, 255, 255, 0.5);
+          bottom: calc(-0.625rem + 2px);
+          left: calc(50% - 2px); }
         #macos .dock-outside .dock-container .dock .icon-container .icon {
-          background: rgba(255, 255, 255, 0.1);
           border-radius: 0.25em;
-          width: var(--icon-size);
+          width: calc(var(--icon-size) + 0.5rem);
           height: var(--icon-size);
           position: relative;
           transform-origin: 0% 100%;
-          box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.2);
-          background: url(./../icons/safari-2021-06-02.png);
           background-size: calc(var(--icon-size) + 6px) calc(var(--icon-size) + 6px);
-          background-position: -3px -3px; }
-          #macos .dock-outside .dock-container .dock .icon-container .icon.has-dot:after {
-            content: "";
-            display: block;
-            position: absolute;
-            width: 4px;
-            height: 4px;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.5);
-            bottom: -0.625rem;
-            left: calc(var(--icon-size) / 2 - 2px); }
-          #macos .dock-outside .dock-container .dock .icon-container .icon img {
-            width: calc(100% + 10px);
-            margin: -5px;
-            display: none; }
+          background-position: -3px -3px;
+          background-origin: content-box;
+          padding-left: 0.25rem;
+          padding-right: 0.25rem; }
+          #macos .dock-outside .dock-container .dock .icon-container .icon.safari {
+            background-image: url(./../icons/safari-2021-06-02.png); }
+          #macos .dock-outside .dock-container .dock .icon-container .icon.folder {
+            background-image: url(./../icons/FolderDark512x512.png); }
+          #macos .dock-outside .dock-container .dock .icon-container .icon.photos {
+            background-image: url(./../icons/photos-2021-05-28.png); }
+          #macos .dock-outside .dock-container .dock .icon-container .icon.podcast {
+            background-image: url(./../icons/podcasts-2021-05-28.png); }
+          #macos .dock-outside .dock-container .dock .icon-container .icon.terminal {
+            background-image: url(./../icons/terminal-2021-06-03.png); }
+          #macos .dock-outside .dock-container .dock .icon-container .icon.monitor {
+            background-image: url(./../icons/activity-monitor-2021-04-22.png); }
+          #macos .dock-outside .dock-container .dock .icon-container .icon.appstore {
+            background-image: url(./../icons/app-store-2021-04-22.png); }
+          #macos .dock-outside .dock-container .dock .icon-container .icon.calculator {
+            background-image: url(./../icons/calculator-2021-04-29.png); }
+          #macos .dock-outside .dock-container .dock .icon-container .icon.digital-color {
+            background-image: url(./../icons/digital-color-meter-2021-04-30.png); }
+          #macos .dock-outside .dock-container .dock .icon-container .icon.maps {
+            background-image: url(./../icons/maps-2021-05-25.png); }
+          #macos .dock-outside .dock-container .dock .icon-container .icon.reminders {
+            background-image: url(./../icons/reminders-2021-05-28.png); }
+          #macos .dock-outside .dock-container .dock .icon-container .icon.screenshot {
+            background-image: url(./../icons/screenshot-2021-06-02.png); }
+          #macos .dock-outside .dock-container .dock .icon-container .icon.preferences {
+            background-image: url(./../icons/system-preferences-2021-06-03.png); }
+          #macos .dock-outside .dock-container .dock .icon-container .icon:active {
+            filter: brightness(50%); }
           #macos .dock-outside .dock-container .dock .icon-container .icon .notification {
             position: absolute;
             background: red;
@@ -342,15 +405,12 @@ html {
             text-align: center;
             border-radius: 50%;
             box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.3); }
-      #macos .dock-outside .dock-container .dock .divider-container {
-        padding: 0.125em;
-        margin-bottom: 0.5em;
-        height: 100%; }
-        #macos .dock-outside .dock-container .dock .divider-container .divider {
-          height: calc(100% - 0.25em);
-          margin-top: 0.5em;
-          width: 1px;
-          background: rgba(255, 255, 255, 0.3); }
+      #macos .dock-outside .dock-container .dock .divider-container .divider {
+        margin: 0.1rem 0.5rem 0.25rem 0.5rem;
+        height: calc(var(--icon-size) + 0.2rem);
+        width: 1px;
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 1px; }
 
 #macos .spotlight {
   width: 40rem;
@@ -388,8 +448,15 @@ html {
 
 #window-1.window {
   left: 50px;
-  top: 50px; }
+  top: 50px;
+  width: 400px;
+  height: 300px; }
 
 #window-2.window {
   left: 100px;
-  top: 100px; }
+  top: 100px;
+  width: 600px;
+  height: 300px; }
+
+.window.safari .window-container {
+  background-color: white; }

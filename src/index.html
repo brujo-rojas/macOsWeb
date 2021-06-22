@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Macos</title>
+    <title>MacOs</title>
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
@@ -90,16 +90,15 @@
       <div
         id="window-1"
         is-draggable
-        class="window safari has-blur-bg has-inner-glow"
+        class="window terminal has-blur-bg has-inner-glow"
       >
-        <div class="window-top">
+        <div class="window-top" >
           <div class="window-actions-icon">
             <div class="red"></div>
             <div class="yellow"></div>
             <div class="green"></div>
           </div>
         </div>
-        <div class="window-tabs"></div>
         <div class="window-container" disable-draggable>
           content no draggable
         </div>
@@ -112,88 +111,139 @@
       >
         <div class="window-top">
           <div class="window-actions-icon">
-            <div class="red"></div>
-            <div class="yellow"></div>
-            <div class="green"></div>
+            <div class="red" close-window></div>
+            <div class="yellow" minimize-window></div>
+            <div class="green" maximize-window></div>
+          </div>
+<div class="window-icons">
+            <div class="icon-button">
+              <i class="fab fa-apple"></i>
+            </div>
+            <div class="icon-button">
+              <i class="fab fa-apple"></i>
+            </div>
+            <div class="icon-button">
+              <i class="fab fa-apple"></i>
+            </div>
+          </div>
+          <div class="spacer"></div>
+<div class="window-icons">
+            <div class="icon-button">
+              <i class="fab fa-apple"></i>
+            </div>
+            <div class="icon-button">
+              <i class="fab fa-apple"></i>
+            </div>
+            <div class="icon-button">
+              <i class="fab fa-apple"></i>
+            </div>
+          </div>
+          <div class="url-input">
+            <input type="text">
+          </div>
+          <div class="spacer"></div>
+          <div class="window-icons">
+            <div class="icon-button">
+              <i class="fab fa-apple"></i>
+            </div>
+            <div class="icon-button">
+              <i class="fab fa-apple"></i>
+            </div>
+            <div class="icon-button">
+              <i class="fab fa-apple"></i>
+            </div>
           </div>
         </div>
-        <div class="window-tabs"></div>
-        <div class="window-container">content draggable</div>
+        <div class="window-tabs" disable-draggable>
+          <div class="tab active">
+            <span class="tab-title">
+              <i class="fab fa-apple"></i>
+              test
+            </span>
+          </div>
+          <div class="tab">
+            <span class="tab-title">
+              <i class="fab fa-apple"></i>
+              test
+            </span>
+          </div>
+          <div class="tab">
+            <span class="tab-title">
+              <i class="fab fa-apple"></i>
+              test
+            </span>
+          </div>
+        </div>
+        <div class="window-container"  disable-draggable>
+          <h1>test test test</h1>
+          <img src="./wallpapers/mojave_dynamic/mojave_dynamic_4.jpeg" alt="" srcset="">
+        </div>
       </div>
 
       <div class="dock-outside">
-      <div class="dock-container">
-        <div class="dock has-blur-bg has-inner-glow">
-          <div class="icon-container">
-            <div class="icon">
-              <img src="./icons/activity-monitor-2021-04-22.png" alt="" />
+        <div class="dock-container">
+          <div class="dock has-blur-bg has-inner-glow">
+            <div class="icon-container">
+              <div class="icon terminal">
+              </div>
             </div>
-          </div>
-          <div class="icon-container">
-            <div class="icon">
-              <img src="./icons/app-store-2021-04-22.png" alt="" />
+            <div class="icon-container">
+              <div class="icon folder">
+              </div>
             </div>
-          </div>
-          <div class="icon-container">
-            <div class="icon">
-              <img src="./icons/calculator-2021-04-29.png" alt="" />
+            <div class="icon-container">
+              <div class="icon photos">
+              </div>
             </div>
-          </div>
-          <div class="icon-container">
-            <div class="icon">
-              <img src="./icons/digital-color-meter-2021-04-30.png" alt="" />
+            <div class="icon-container">
+              <div class="icon podcast">
+              </div>
             </div>
-          </div>
-          <div class="icon-container">
-            <div class="icon has-dot">
-              <img src="./icons/maps-2021-05-25.png" alt="" />
-              <div class="notification">3</div>
+            <div class="icon-container has-dot">
+              <div class="icon safari">
+                <div class="notification">3</div>
+              </div>
             </div>
-          </div>
-          <div class="icon-container">
-            <div class="icon">
-              <img src="./icons/photos-2021-05-28.png" alt="" />
+            <div class="icon-container">
+              <div class="icon monitor">
+              </div>
             </div>
-          </div>
-          <div class="divider-container">
-            <div class="divider"></div>
-          </div>
-          <div class="icon-container">
-            <div class="icon">
-              <img src="./icons/podcasts-2021-05-28.png" alt="" />
+            <div class="divider-container">
+              <div class="divider"></div>
             </div>
-          </div>
-          <div class="icon-container">
-            <div class="icon">
-              <img src="./icons/reminders-2021-05-28.png" alt="" />
+            <div class="icon-container">
+              <div class="icon appstore">
+              </div>
             </div>
-          </div>
-          <div class="icon-container">
-            <div class="icon">
-              <img src="./icons/safari-2021-06-02.png" alt="" />
+            <div class="icon-container">
+              <div class="icon calculator">
+              </div>
             </div>
-          </div>
-          <div class="icon-container">
-            <div class="icon">
-              <img src="./icons/screenshot-2021-06-02.png" alt="" />
+            <div class="icon-container">
+              <div class="icon digital-color">
+              </div>
             </div>
-          </div>
-          <div class="icon-container">
-            <div class="icon">
-              <img src="./icons/system-preferences-2021-06-03.png" alt="" />
+            <div class="icon-container">
+              <div class="icon maps">
+              </div>
             </div>
-          </div>
-          <div class="icon-container">
-            <div class="icon">
-              <img src="./icons/terminal-2021-06-03.png" alt="" />
+            <div class="icon-container">
+              <div class="icon reminders">
+              </div>
+            </div>
+            <div class="icon-container">
+              <div class="icon screenshot">
+              </div>
+            </div>
+            <div class="icon-container">
+              <div class="icon preferences">
+              </div>
             </div>
           </div>
         </div>
-      </div>
       </div>
     </div>
 
     <script src="js/script.js"></script>
   </body>
 </html>
-

@@ -1,7 +1,7 @@
 :root {
   --accentColor: rgba(10, 130, 255, 1);
   --topbarHeight: 1.5rem;
-  --icon-size: 24px;
+  --icon-size: 36px;
 
   --color-title-bar: rgba(60, 60, 60, 0.8);
   --color-header-view: rgba(30, 30, 30, 0.8);
@@ -25,7 +25,7 @@ html {
 * {
   box-sizing: border-box !important;
   cursor: default;
-  //box-shadow: 0px 0px 2px red;
+  //box-shadow: 0px 0px 0px 1px red;
 }
 
 #macos {
@@ -41,8 +41,8 @@ html {
   }
 
   .has-blur-bg {
-    -webkit-backdrop-filter: saturate(180%) blur(30px);
-    backdrop-filter: saturate(180%) blur(2px);
+    -webkit-backdrop-filter: saturate(180%) blur(20px);
+    backdrop-filter: saturate(180%) blur(20px);
   }
 
   .has-inner-glow {
@@ -286,6 +286,9 @@ html {
         border-radius: 20px;
         z-index: 6;
         position: relative;
+        &.widget-double {
+          width: calc(150px * 2 + 1rem);
+        }
         &.widget-clock {
           .widget-clock-circle {
             background: rgba(52, 52, 54, 1);
@@ -295,13 +298,21 @@ html {
             height: calc(100% - 0.9rem);
           }
         }
+        &.widget-calendar {
+          background: rgba(30, 30, 30, 1);
+        }
         &.widget-weather {
+          background: linear-gradient(
+            0deg,
+            rgba(48, 52, 67, 1) 0%,
+            rgba(11, 9, 18, 1) 100%
+          );
         }
         &.widget-podcast {
           background: linear-gradient(
             0deg,
-            rgba(2, 0, 36, 1) 0%,
-            rgba(36, 152, 176, 1) 100%
+            rgba(151, 0, 197, 1) 0%,
+            rgba(230, 61, 252, 1) 100%
           );
         }
       }
@@ -309,8 +320,8 @@ html {
   }
 
   .window {
-    min-width: 500px;
-    min-height: 300px;
+    min-width: 100px;
+    min-height: 100px;
     border-radius: 8px;
     position: absolute;
     left: 10%;
@@ -324,6 +335,9 @@ html {
       0 20px 70px rgba(0, 0, 0, 0.55);
     border: 1px solid rgba(255, 255, 255, 0.2);
 
+    &.maximize{
+      width: 100%;
+    }
     &.active {
       z-index: 2;
     }
@@ -333,6 +347,8 @@ html {
       background: rgba(55, 55, 55, 0.9);
       border-bottom: 1px solid black;
       padding: 0.5rem 0.75rem;
+      display: flex;
+
       .window-actions-icon {
         display: flex;
         flex-flow: row;
@@ -353,18 +369,68 @@ html {
           }
         }
       }
+      .window-icons{
+        flex: 0 0 auto;
+        display: flex;
+        align-items: center;;
+        .icon-button{
+          font-size: 0.875rem;
+          padding: 0.1rem 0.5rem;
+          border-radius: 3px;
+          margin: 0.25rem;
+          color: white;
+          &:hover{
+            background: rgba(255,255,255,0.1);
+          }
+        }
+      }
+      .url-input{
+        flex:1 0 300px;
+        width: auto;
+        input{
+          background: rgba(255, 255, 255, 0.1);
+          width: 100%;
+          height:auto;
+          border: none;
+          border-radius: 5px;
+          line-height: 1.5rem;
+          color: white;
+          text-align: center;
+          outline:none;
+        }
+      }
     }
     .window-tabs {
-      height: 1.5rem;
+      flex: 1 1 auto;
       background: rgba(15, 15, 15, 0.8);
+      display: flex;
+      flex-flow:row;
+      justify-items: stretch;
+      .tab{
+        height: 1.5rem;
+        flex: 1 0 auto;
+        justify-items:center;
+        display: flex;
+          &.active{
+            background: rgba(55, 55, 55, 0.9);
+          }
+        .tab-title{
+          font-size: 0.875rem;
+          line-height: 1.25rem;
+          flex: 1 1 auto;
+          text-align: center;;
+          color: white;
+        }
+      }
     }
     .window-container {
       flex: 1 1 auto;
+      overflow: scroll;;
     }
   }
 
-  .dock-outside{
-    background: rgba(100, 0,0,0.3);
+  .dock-outside {
+    //background: rgba(100, 0, 0, 0.3);
     width: 100%;
     font-size: var(--icon-size);
     bottom: 0.25rem;
@@ -373,53 +439,38 @@ html {
     display: flex;
     justify-content: center;
 
-  .dock-container {
+    .dock-container {
+      z-index: 15;
+      //background: rgba(0, 100, 0, 0.3);
 
-    padding-top: 1px;
-    z-index: 15;
-    background: rgba(0, 100,0,0.3);
-    transition: 0.3s all ease;
-
-      &.clear{
+      &.clear {
         .icon-container {
-          transition: 0.3s all ease;
+          //transition: 0.3s all ease;
           .icon {
-          transition: 0.3s all ease;
+            //transition: 0.3s all ease;
           }
         }
       }
 
-    .dock {
-      flex: 0 0 auto;
-      border-radius: 1rem;
-      height: calc(var(--icon-size) + 0.75em);
-      background: rgba(40, 40, 40, 0.6);
-      padding: 0.125em;
-      display: flex;
-      align-items: flex-end;
-      border: 1px solid rgba(255, 255, 255, 0.18);
-      box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.4), 0 20px 70px rgba(0, 0, 0, 0.55);
+      .dock {
+        flex: 0 0 auto;
+        border-radius: 1rem;
+        //height: calc(var(--icon-size) + 1.5rem);
+        background: rgba(40, 40, 40, 0.6);
+        //padding: 0.125em;
+        display: flex;
+        align-items: flex-end;
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.4),
+          0 20px 70px rgba(0, 0, 0, 0.55);
 
-      .icon-container {
-        margin-top: 0.125em;
-        margin-bottom: 0.25em;
-        margin-left: 0.2em;
-        margin-right: 0.2em;
-        width: var(--icon-size);
-        text-align: center;
-        position: relative;
-
-        .icon {
-          background: rgba(255, 255, 255, 0.1);
-          border-radius: 0.25em;
-          width: var(--icon-size);
-          height: var(--icon-size);
+        .icon-container {
+          margin-top: 0.125em;
+          margin-bottom: 0.25em;
+          width: calc(var(--icon-size) + 0.5rem);
+          text-align: center;
           position: relative;
-          transform-origin: 0% 100%;
-          box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.2);
-          background: url(./../icons/safari-2021-06-02.png) ;
-          background-size: calc(var(--icon-size) + 6px)  calc(var(--icon-size) + 6px);
-          background-position: -3px -3px;
+
           &.has-dot:after {
             content: "";
             display: block;
@@ -428,44 +479,99 @@ html {
             height: 4px;
             border-radius: 50%;
             background: rgba(255, 255, 255, 0.5);
-            bottom: -0.625rem;
-            left: calc(var(--icon-size) / 2 - 2px);
+            bottom: calc(-0.625rem + 2px);
+            left: calc(50% - 2px);
           }
-          img{
-            width: calc(100% + 10px);
-            margin: -5px;
-            display:none;
-          }
-          .notification {
-            position: absolute;
-            background: red;
-            width: 1.5em;
-            height: 1.5em;
-            line-height: 1.55em;
-            right: -0.5em;
-            top: -0.5em;
-            font-size: 0.4em;
-            color: white;
-            text-align: center;
-            border-radius: 50%;
-            box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.3);
+
+          .icon {
+            border-radius: 0.25em;
+            width: calc(var(--icon-size) + 0.5rem);
+            height: var(--icon-size);
+            position: relative;
+            transform-origin: 0% 100%;
+            background-size: calc(var(--icon-size) + 6px)
+              calc(var(--icon-size) + 6px);
+            background-position: -3px -3px;
+            background-origin: content-box;
+
+            padding-left: 0.25rem;
+            padding-right: 0.25rem;
+
+            &.safari{
+              background-image: url(./../icons/safari-2021-06-02.png);
+            }
+            &.folder{
+              background-image: url(./../icons/FolderDark512x512.png);
+            }
+            &.photos{
+              background-image: url(./../icons/photos-2021-05-28.png);
+            }
+            &.podcast{
+              background-image: url(./../icons/podcasts-2021-05-28.png);
+            }
+            &.terminal{
+              background-image: url(./../icons/terminal-2021-06-03.png);
+            }
+            &.monitor{
+              background-image: url(./../icons/activity-monitor-2021-04-22.png);
+            }
+            &.appstore{
+              background-image: url(./../icons/app-store-2021-04-22.png);
+            }
+            &.calculator{
+              background-image: url(./../icons/calculator-2021-04-29.png);
+            }
+            &.digital-color{
+              background-image: url(./../icons/digital-color-meter-2021-04-30.png);
+            }
+            &.maps{
+              background-image: url(./../icons/maps-2021-05-25.png);
+            }
+            &.reminders{
+              background-image: url(./../icons/reminders-2021-05-28.png);
+            }
+            &.screenshot{
+              background-image: url(./../icons/screenshot-2021-06-02.png);
+            }
+            &.preferences{
+              background-image: url(./../icons/system-preferences-2021-06-03.png);
+            }
+
+            &:active{
+              filter: brightness(50%);
+            }
+
+
+
+
+            .notification {
+              position: absolute;
+              background: red;
+              width: 1.5em;
+              height: 1.5em;
+              line-height: 1.55em;
+              right: -0.5em;
+              top: -0.5em;
+              font-size: 0.4em;
+              color: white;
+              text-align: center;
+              border-radius: 50%;
+              box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.3);
+            }
           }
         }
-      }
 
-      .divider-container {
-        padding: 0.125em;
-        margin-bottom: 0.5em;
-        height: 100%;
-        .divider {
-          height: calc(100% - 0.25em);
-          margin-top: 0.5em;
-          width: 1px;
-          background: rgba(255, 255, 255, 0.3);
+        .divider-container {
+          .divider {
+            margin: 0.1rem 0.5rem 0.25rem 0.5rem;
+            height: calc(var(--icon-size) + 0.2rem);
+            width: 1px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 1px;
+          }
         }
       }
     }
-  }
   }
 
   .spotlight {
@@ -515,9 +621,20 @@ html {
 #window-1.window {
   left: 50px;
   top: 50px;
+  width: 400px;
+  height: 300px;
 }
 
 #window-2.window {
   left: 100px;
   top: 100px;
+  width: 600px;
+  height: 300px;
+}
+
+.window.safari{
+
+  .window-container{
+    background-color:white;
+  }
 }
