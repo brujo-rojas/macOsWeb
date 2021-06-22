@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Macos</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/gh/mailtoharshit/San-Francisco-Font-/sanfrancisco.css"
+    />
+    <link rel="stylesheet" type="text/css" href="./css/style.css" />
+  </head>
+  <body>
+    <div id="macos">
+      <div class="topbar has-blur-bg">
+        <div class="apple-btn">
+          <i class="fab fa-apple"></i>
+        </div>
+        <div class="topbar-menu">
+          <div class="app-name menu-button">Safari</div>
+          <div class="menu-button" has-dropdown>
+            Archivo
+            <div class="dropdown has-blur-bg hide">
+              <div class="item">
+                Nueva ventana
+                <div class="key">NN</div>
+              </div>
+              <div class="item">
+                Nueva ventana
+                <div class="key">NN</div>
+              </div>
+              <div class="item">Nueva ventana</div>
+              <div class="divider"></div>
+              <div class="item">Nueva ventana</div>
+              <div class="item">Nueva ventana</div>
+            </div>
+          </div>
+          <div class="menu-button">Edición</div>
+          <div class="menu-button">Visualización</div>
+          <div class="menu-button">Historial</div>
+          <div class="menu-button">Ventana</div>
+        </div>
+        <div class="spacer"></div>
+        <div class="topbar-right">
+          <div class="topbar-button" toggle-spotlight>
+            <i class="fas fa-search"></i>
+          </div>
+          <div class="topbar-button" toggle-control-panel>
+            <i class="fab fa-apple"></i>
+          </div>
+          <div class="topbar-button" toggle-widget>Lun 21 jun. 16:20</div>
+        </div>
+      </div>
+
+      <div class="control-panel hide has-blur-bg">
+        <div class="cp-connections"></div>
+        <div class="cp-disturb"></div>
+        <div class="cp-brigthness"></div>
+        <div class="cp-double-screen"></div>
+        <div class="cp-screen"></div>
+        <div class="cp-sound"></div>
+        <div class="cp-music"></div>
+        <div class="cp-battery"></div>
+        <div class="cp-access"></div>
+        <div></div>
+      </div>
+
+      <div class="spotlight has-blur-bg hide">
+        <i class="fas fa-search"></i>
+        <input type="" placeholder="Búsqueda en Spotlight" />
+      </div>
+
+      <div class="widgets hide">
+        <div class="widgets-blur-bg"></div>
+        <div class="widgets-container">
+          <div class="widget-clock widget">
+            <div class="widget-clock-circle"></div>
+          </div>
+          <div class="widget widget-calendar"></div>
+          <div class="widget widget-weather"></div>
+          <div class="widget widget-podcast"></div>
+          <div class="widget widget-double widget-time-screen"></div>
+        </div>
+      </div>
+
+      <div
+        id="window-1"
+        is-draggable
+        class="window safari has-blur-bg has-inner-glow"
+      >
+        <div class="window-top">
+          <div class="window-actions-icon">
+            <div class="red"></div>
+            <div class="yellow"></div>
+            <div class="green"></div>
+          </div>
+        </div>
+        <div class="window-tabs"></div>
+        <div class="window-container" disable-draggable>
+          content no draggable
+        </div>
+      </div>
+
+      <div
+        id="window-2"
+        is-draggable
+        class="window safari has-blur-bg has-inner-glow"
+      >
+        <div class="window-top">
+          <div class="window-actions-icon">
+            <div class="red"></div>
+            <div class="yellow"></div>
+            <div class="green"></div>
+          </div>
+        </div>
+        <div class="window-tabs"></div>
+        <div class="window-container">content draggable</div>
+      </div>
+
+      <div class="dock-container">
+        <div class="dock has-blur-bg has-inner-glow">
+          <div class="icon-container">
+            <div class="icon">
+              <img src="./icons/activity-monitor-2021-04-22.png" alt="" />
+            </div>
+          </div>
+          <div class="icon-container">
+            <div class="icon">
+              <img src="./icons/app-store-2021-04-22.png" alt="" />
+            </div>
+          </div>
+          <div class="icon-container">
+            <div class="icon">
+              <img src="./icons/calculator-2021-04-29.png" alt="" />
+            </div>
+          </div>
+          <div class="icon-container">
+            <div class="icon">
+              <img src="./icons/digital-color-meter-2021-04-30.png" alt="" />
+            </div>
+          </div>
+          <div class="icon-container">
+            <div class="icon has-dot">
+              <img src="./icons/maps-2021-05-25.png" alt="" />
+              <div class="notification">3</div>
+            </div>
+          </div>
+          <div class="icon-container">
+            <div class="icon">
+              <img src="./icons/photos-2021-05-28.png" alt="" />
+            </div>
+          </div>
+          <div class="divider-container">
+            <div class="divider"></div>
+          </div>
+          <div class="icon-container">
+            <div class="icon">
+              <img src="./icons/podcasts-2021-05-28.png" alt="" />
+            </div>
+          </div>
+          <div class="icon-container">
+            <div class="icon">
+              <img src="./icons/reminders-2021-05-28.png" alt="" />
+            </div>
+          </div>
+          <div class="icon-container">
+            <div class="icon">
+              <img src="./icons/safari-2021-06-02.png" alt="" />
+            </div>
+          </div>
+          <div class="icon-container">
+            <div class="icon">
+              <img src="./icons/screenshot-2021-06-02.png" alt="" />
+            </div>
+          </div>
+          <div class="icon-container">
+            <div class="icon">
+              <img src="./icons/system-preferences-2021-06-03.png" alt="" />
+            </div>
+          </div>
+          <div class="icon-container">
+            <div class="icon">
+              <img src="./icons/terminal-2021-06-03.png" alt="" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="js/script.js"></script>
+  </body>
+</html>
+

@@ -1,0 +1,20 @@
+{
+  "name": "macos-web",
+  "version": "1.0.0",
+  "description": "macos web, inspired by big sur ",
+  "main": "index.html",
+  "scripts": {
+   "serve": "cd src/ && live-server --ignore=\"**/*.scss,.sass-cache/**.**, **/*.css.map\" --entry-file=index.html",
+    "scss": "node-sass --watch src/scss -o src/css"
+  },
+  "keywords": [
+    "macos",
+    "bigsur",
+    "html5"
+  ],
+  "author": "projas",
+  "license": "ISC",
+  "devDependencies": {
+    "node-sass": "^6.0.0"
+  }
+}
