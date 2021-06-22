@@ -1,7 +1,7 @@
 :root {
   --accentColor: rgba(10, 130, 255, 1);
   --topbarHeight: 1.5rem;
-  --iconSize: 24px;
+  --icon-size: 24px;
 
   --color-title-bar: rgba(60, 60, 60, 0.8);
   --color-header-view: rgba(30, 30, 30, 0.8);
@@ -41,7 +41,8 @@ html {
   }
 
   .has-blur-bg {
-    backdrop-filter: saturate(180%) blur(30px);
+    -webkit-backdrop-filter: saturate(180%) blur(30px);
+    backdrop-filter: saturate(180%) blur(2px);
   }
 
   .has-inner-glow {
@@ -252,6 +253,7 @@ html {
       width: 100%;
       height: 100%;
       filter: blur(1rem);
+      -webkit-filter: blur(1rem);
       z-index: 1;
       &:after {
         content: "";
@@ -262,6 +264,7 @@ html {
         width: 100%;
         height: 100%;
         backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
       }
     }
 
@@ -360,53 +363,63 @@ html {
     }
   }
 
-  .dock-container {
-    font-size: var(--iconSize);
+  .dock-outside{
+    background: rgba(100, 0,0,0.3);
     width: 100%;
+    font-size: var(--icon-size);
     bottom: 0.25rem;
     left: 0px;
     position: absolute;
     display: flex;
     justify-content: center;
+
+  .dock-container {
+
     padding-top: 1px;
     z-index: 15;
+    background: rgba(0, 100,0,0.3);
+    transition: 0.3s all ease;
+
+      &.clear{
+        .icon-container {
+          transition: 0.3s all ease;
+          .icon {
+          transition: 0.3s all ease;
+          }
+        }
+      }
+
     .dock {
       flex: 0 0 auto;
       border-radius: 1rem;
-      height: calc(var(--iconSize) + 0.75em);
+      height: calc(var(--icon-size) + 0.75em);
       background: rgba(40, 40, 40, 0.6);
       padding: 0.125em;
       display: flex;
       align-items: flex-end;
       border: 1px solid rgba(255, 255, 255, 0.18);
       box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.4), 0 20px 70px rgba(0, 0, 0, 0.55);
-      transition: 0.3s all ease;
 
-      &.clear {
-        .icon-container {
-          transition: 0.3s all ease;
-          .icon {
-            transition: 0.3s all ease;
-          }
-        }
-      }
       .icon-container {
         margin-top: 0.125em;
         margin-bottom: 0.25em;
         margin-left: 0.2em;
         margin-right: 0.2em;
-        width: var(--iconSize);
+        width: var(--icon-size);
         text-align: center;
         position: relative;
 
         .icon {
           background: rgba(255, 255, 255, 0.1);
-          border-radius: 0.5em;
-          width: var(--iconSize);
-          height: var(--iconSize);
+          border-radius: 0.25em;
+          width: var(--icon-size);
+          height: var(--icon-size);
           position: relative;
           transform-origin: 0% 100%;
           box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.2);
+          background: url(./../icons/safari-2021-06-02.png) ;
+          background-size: calc(var(--icon-size) + 6px)  calc(var(--icon-size) + 6px);
+          background-position: -3px -3px;
           &.has-dot:after {
             content: "";
             display: block;
@@ -416,11 +429,12 @@ html {
             border-radius: 50%;
             background: rgba(255, 255, 255, 0.5);
             bottom: -0.625rem;
-            left: calc(var(--iconSize) / 2 - 2px);
+            left: calc(var(--icon-size) / 2 - 2px);
           }
           img{
             width: calc(100% + 10px);
             margin: -5px;
+            display:none;
           }
           .notification {
             position: absolute;
@@ -451,6 +465,7 @@ html {
         }
       }
     }
+  }
   }
 
   .spotlight {

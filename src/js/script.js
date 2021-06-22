@@ -4,12 +4,21 @@ let getCSSValue = function (varName) {
   return getComputedStyle(root).getPropertyValue(varName);
 };
 
-let dock     = root.querySelector(".dock");
+function debounce(func, timeout = 10){
+  let timer;
+  return (...args) => {
+    clearTimeout(timer);
+    timer = setTimeout(() => { func.apply(this, args); }, timeout);
+  };
+}
+
+let dock     = root.querySelector(".dock-container");
 let icons    = root.querySelectorAll(".icon-container");
-let iconSize = parseFloat(getCSSValue("--iconSize"));
+let iconSize = parseFloat(getCSSValue("--icon-size"));
 let space    = 250;
 let scale    = 1;
 let scaleMagnificent = 2;
+let lastMouseX = 0;
 
 let refreshIconSize = function (e, iconContainer) {
   let icon = iconContainer.children[0];
@@ -20,27 +29,55 @@ let refreshIconSize = function (e, iconContainer) {
   let aditionalScale = diffpx < space ? (space - diffpx) / space : 0;
   aditionalScale *= scaleMagnificent;
   let iconScale = scale + (aditionalScale > 0 ? aditionalScale : 0);
+
+
+
   iconContainer.style.width = iconScale * iconSize + "px";
   icon.style.transform = "scale(" + iconScale + ")";
 };
 
 let refreshDock = function (e) {
-  icons.forEach((iconContainer) => refreshIconSize(e, iconContainer));
-  dock.classList.remove("clear");
+  console.log("refreshDock")
+  let mouseX = e.clientX;
+  if(mouseX != lastMouseX){
+    dock.style.paddingTop = iconSize * scaleMagnificent + "px";
+    lastMouseX = mouseX;
+
+    //dock.style.paddingLeft = mouseX  + "px";
+    //dock.style.paddingRight = iconSize * scaleMagnificent*0.5 + "px";
+    icons.forEach((iconContainer) => refreshIconSize(e, iconContainer));
+  setTimeout(() => {
+    dock.classList.remove("clear");
+  },1000);
+  }
   e.stopPropagation();
 };
 
+
 let clearDock = function (e) {
-  dock.classList.add("clear");
+  dock.style.transform = "scaleY(1)";
   icons.forEach((iconContainer) => {
     let icon = iconContainer.children[0];
     iconContainer.style.width = iconSize + "px";
     icon.style.transform = "scale(1)";
+    dock.style.paddingTop = "0px";
+    dock.style.paddingLeft = "0px";
+    dock.style.paddingRight = "0px";
   });
+    dock.classList.add("clear");
+
 };
 
-dock.addEventListener("mouseenter", (e) => refreshDock(e));
-dock.addEventListener("mousemove", (e) => refreshDock(e));
+let refreshDockDebounced = null;
+
+dock.addEventListener("mouseenter", (e) => {
+  //refreshDockDebounced = debounce(() => refreshDock(e));
+  refreshDock(e);
+});
+dock.addEventListener("mousemove", (e) => {
+  //refreshDockDebounced();
+  refreshDock(e);
+});
 dock.addEventListener("mouseleave", (e) => clearDock(e));
 
 
