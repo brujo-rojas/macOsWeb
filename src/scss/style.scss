@@ -336,27 +336,42 @@ html {
     border: 1px solid rgba(255, 255, 255, 0.2);
 
     &.maximize{
-      width: 100%;
+      width: 100% !important;
+      top: var(--topbarHeight) !important;
+      left: 0px !important;
+      height: calc( 100% - (var(--icon-size) + 1.25rem) - var(--topbarHeight)) !important;
+      transition: 0.2s  all ease;
     }
+
     &.active {
       z-index: 2;
     }
 
     .window-top {
-      height: 2.85rem;
+      height: 1.75rem;
+      padding: 0.25rem 0.25rem;
       background: rgba(55, 55, 55, 0.9);
       border-bottom: 1px solid black;
-      padding: 0.5rem 0.75rem;
       display: flex;
+
+      &.large{
+        height: 2.85rem;
+        padding: 0.5rem 0.75rem;
+        .window-actions-icon{
+          & > div{
+            margin: 0.5rem 0.25rem;
+          }
+        }
+      }
 
       .window-actions-icon {
         display: flex;
         flex-flow: row;
         & > div {
-          width: 0.625rem;
-          height: 0.625rem;
+          width: 0.75rem;
+          height: 0.75rem;
           border-radius: 50%;
-          margin: 0.5rem 0.25rem;
+          margin: 0.25rem 0.25rem;
           background: rgba(255, 255, 255, 0.2);
           &.red {
             background: rgb(255, 59, 75);
@@ -621,7 +636,7 @@ html {
 #window-1.window {
   left: 50px;
   top: 50px;
-  width: 400px;
+  width: 800px;
   height: 300px;
 }
 
@@ -633,8 +648,33 @@ html {
 }
 
 .window.safari{
-
   .window-container{
     background-color:white;
+  }
+}
+
+
+.window.terminal{
+  .window-container{
+    color: white;
+    padding: 0.1rem 0.125rem;
+    font-size: 1rem;
+    letter-spacing: 2px;
+    .cursor-blink{
+      vertical-align: top;
+      width: 0.5rem;
+      height: 1.1rem;
+      background: white;
+      display: inline-block;
+      animation: blink-animation 1s steps(2, start) infinite;
+
+    }
+  }
+}
+
+
+@keyframes blink-animation {
+  to {
+    background:rgba(255, 255, 255, 0);
   }
 }
