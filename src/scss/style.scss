@@ -37,7 +37,6 @@ html {
   * {
     box-sizing: border-box !important;
     cursor: default;
-    //box-shadow: 0px 0px 0px 1px rgba(255, 0, 0, 0.5);
 
       -webkit-touch-callout: none; /* iOS Safari */
     -webkit-user-select: none; /* Safari */
@@ -107,59 +106,57 @@ html {
           background: rgba(255, 255, 255, 0.2); //test
           backdrop-filter: saturate(100%);
         }
-
-        .dropdown {
-          min-width: 300px;
-          border-radius: 6px;
-          position: absolute;
-          top: var(--topbarHeight);
-          left: 0px;
-          padding: 0.25rem;
-
-          background: rgba(40, 40, 40, 0.8);
-          display: flex;
-          flex-flow: column;
-          box-shadow: 0px 0px 0px 1px rgba(0, 0, 0, 1),
-            0 5px 20px rgba(0, 0, 0, 0.55);
-          border: 1px solid rgba(255, 255, 255, 0.2);
-
-          &.hide {
-            display: none;
-          }
-          .divider {
-            margin: 0.25rem 0.5rem;
-            line-height: 1.3rem;
-            border-radius: 3px;
-            height: 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
-          }
-          .item {
-            padding: 0 0.5rem;
-            line-height: 1.25rem;
-            border-radius: 3px;
-            opacity: 0.75;
-            position: relative;
-            &.active,
-            &:hover {
-              background: var(--accentColor);
-              .key {
-                opacity: 1;
-              }
-            }
-            .key {
-              position: absolute;
-              right: 0.5rem;
-              top: 0px;
-              opacity: 0.4;
-            }
-          }
-        }
-
-        &.app-name {
-          font-weight: 700;
-        }
       }
     }
+
+      .dropdown {
+        min-width: 300px;
+        border-radius: 6px;
+        position: absolute;
+        top: var(--topbarHeight);
+        left: 0px;
+        padding: 0.25rem;
+
+        background: rgba(40, 40, 40, 0.8);
+        display: flex;
+        flex-flow: column;
+        box-shadow: 0px 0px 0px 1px rgba(0, 0, 0, 1),
+        0 5px 20px rgba(0, 0, 0, 0.55);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+
+        &.hide {
+          display: none;
+        }
+        .divider {
+          margin: 0.25rem 0.5rem;
+          line-height: 1.3rem;
+          border-radius: 3px;
+          height: 0;
+          border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        .item {
+          padding: 0 0.5rem;
+          line-height: 1.25rem;
+          border-radius: 3px;
+          opacity: 0.75;
+          position: relative;
+          &.active,
+          &:hover {
+            background: var(--accentColor);
+            .key {
+              opacity: 1;
+            }
+          }
+          .key {
+            position: absolute;
+            right: 0.5rem;
+            top: 0px;
+            opacity: 0.4;
+          }
+        }
+      }
+
+
     .topbar-right {
       display: flex;
       .topbar-button {
@@ -343,16 +340,44 @@ html {
                 0 20px 70px rgba(0, 0, 0, 0.55);
     border: 1px solid rgba(255, 255, 255, 0.2);
 
-    &.maximize{
+    &:not(.dragging){
+      transition: 0.2s all ease;
+    }
+
+    &.maximized{
       width: 100% !important;
       top: var(--topbarHeight) !important;
       left: 0px !important;
       height: calc( 100% - (var(--icon-size) + 1.25rem) - var(--topbarHeight)) !important;
-      transition: 0.1s width ease, 0.1s height ease;
+    }
+
+    &.minimized{
+      transform: scale(0.1);
+      left: 1rem !important;
+      top: 70% !important;
+      .drop-top{
+        width: 100%;
+        height: 100%;
+      }
+    }
+
+    &.closed{
+      width: 100% !important;
+      top: var(--topbarHeight) !important;
+      left: 0px !important;
+      height: calc( 100% - (var(--icon-size) + 1.25rem) - var(--topbarHeight)) !important;
     }
 
     &.active {
       z-index: 2;
+    }
+
+    .drop-top{
+      position: absolute;
+      left: 0px;
+      top:0px;
+      width: 0px;
+      height: 0px;
     }
 
     .window-top {
@@ -413,20 +438,75 @@ html {
         flex: 10 0 auto;
         width: auto;
         align-items:center;
-        input{
+        color: white;
+        display:flex;
+        align-items: center;
+
+        .input-container{
           background: rgba(255, 255, 255, 0.1);
           width: 100%;
-          height:auto;
-          border: none;
           border-radius: 5px;
-          line-height: 1.5rem;
-          color: white;
-          outline:none;
-          box-shadow: 0px 0px 20px 0px transparent;
-          text-align:center;
-          transition: 0.2s all ease;
-          &:focus{
-            box-shadow: 0px 0px 2px 2px red;
+          padding: 0px 2rem;
+          position: relative;
+          display:flex;
+          flex-flow:row;
+          align-items: center;
+          box-shadow: 0px 0px 1px 8px transparent;
+
+          &:focus-within{
+            transition: 0.3s all ease;
+            box-shadow: 0px 0px 4px 2px var(--accentColor);
+            .label-url{
+              opacity:0;
+              transform: translateX(-200px);
+            }
+          }
+
+          input{
+            background: transparent;
+            width: calc(100% - 200px); //traslateX value
+            height:auto;
+            border: none;
+            line-height: 1.5rem;
+            outline:none;
+            text-align: left;
+            transform: translateX(200px);
+            transition: 0.4s opacity ease, 0.4s transform ease;
+            padding: 0px;
+            opacity: 0;
+            color: inherit;
+            &:focus{
+              width: 100%;
+              opacity:1;
+              transform: translateX(0px);
+            }
+          }
+
+          .label-url{
+            display:block;
+            position:absolute;
+            width: 100%;
+            height: 100%;
+            transition: 0.4s opacity ease, 0.4s transform ease;
+            opacity:1;
+            text-align: center;
+            span{
+              pointer-events: none;
+            }
+          }
+
+          .fa-lock{
+          }
+
+          .fa-reload{
+            position: absolute;
+            right: 0.5rem;
+            top: 0.25rem;
+          }
+          .fa-globe{
+            position: absolute;
+            left: 0.5rem;
+            top: 0.25rem;
           }
         }
       }
@@ -612,47 +692,56 @@ html {
     }
   }
 
-  .spotlight {
-    width: 40rem;
-    height: 3.6rem;
+  .spotlight-container{
     position: absolute;
-    left: calc(50% - 20rem);
-    top: 40%;
+    left: 0px;
+    top: 0px;
+    width:100%;
+    height: 100%;
     z-index: 30;
 
-    background: rgba(40, 40, 40, 0.8);
-    box-shadow: 0px 0px 0px 1px rgba(0, 0, 0, 1),
-      0 20px 70px rgba(0, 0, 0, 0.55);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 8px;
+      &.hide {
+        display: none;
+      }
 
-    &.hide {
-      display: none;
-    }
+    .spotlight {
+      width: 40rem;
+      height: 3.6rem;
+      position: absolute;
+      left: calc(50% - 20rem);
+      top: 40%;
 
-    .fas.fa-search {
-      font-size: 1.8rem;
-      position: absolute;
-      left: 0.9rem;
-      top: 0.9rem;
-      color: rgba(255, 255, 255, 0.8);
-    }
-    input {
-      padding-left: 3.6rem;
-      position: absolute;
-      right: 0px;
-      top: 0px;
-      border: none;
-      font-size: 1.8rem;
-      width: 100%;
-      height: 100%;
-      background: transparent;
-      outline: none;
-      color: rgba(255, 255, 255, 0.8);
-      &::placeholder {
-        color: rgba(255, 255, 255, 0.4);
+      background: rgba(40, 40, 40, 0.8);
+      box-shadow: 0px 0px 0px 1px rgba(0, 0, 0, 1),
+                  0 20px 70px rgba(0, 0, 0, 0.55);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 8px;
+
+      .fa-search {
+        font-size: 1.8rem;
+        position: absolute;
+        left: 0.9rem;
+        top: 0.9rem;
+        color: rgba(255, 255, 255, 0.8);
+      }
+      input {
+        padding-left: 3.6rem;
+        position: absolute;
+        right: 0px;
+        top: 0px;
+        border: none;
+        font-size: 1.8rem;
+        width: 100%;
+        height: 100%;
+        background: transparent;
+        outline: none;
+        color: rgba(255, 255, 255, 0.8);
+        &::placeholder {
+          color: rgba(255, 255, 255, 0.4);
+        }
       }
     }
+
   }
 }
 

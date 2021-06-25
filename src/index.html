@@ -17,11 +17,94 @@
   <body>
     <div id="macos">
       <div class="topbar has-blur-bg">
-        <div class="apple-btn">
+        <div class="apple-btn" has-dropdown>
           <i class="fab fa-apple"></i>
+          <div class="dropdown has-blur-bg hide">
+            <div class="item">
+              Nueva ventana
+              <div class="key">NN</div>
+            </div>
+            <div class="item">
+              Nueva ventana
+              <div class="key">NN</div>
+            </div>
+            <div class="item">Nueva ventana</div>
+            <div class="divider"></div>
+            <div class="item">Nueva ventana</div>
+            <div class="item">Nueva ventana</div>
+          </div>
         </div>
         <div class="topbar-menu">
-          <div class="app-name menu-button">Safari</div>
+          <div class="menu-button app-name" has-dropdown>
+            <strong>
+              Archivo
+            </strong>
+            <div class="dropdown has-blur-bg hide">
+              <div class="item">
+                Nueva ventana
+                <div class="key">NN</div>
+              </div>
+              <div class="item">
+                Nueva ventana
+                <div class="key">NN</div>
+              </div>
+              <div class="item">Nueva ventana</div>
+              <div class="divider"></div>
+              <div class="item">Nueva ventana</div>
+              <div class="item">Nueva ventana</div>
+            </div>
+          </div>
+<div class="menu-button" has-dropdown>
+            Archivo
+            <div class="dropdown has-blur-bg hide">
+              <div class="item">
+                Nueva ventana
+                <div class="key">NN</div>
+              </div>
+              <div class="item">
+                Nueva ventana
+                <div class="key">NN</div>
+              </div>
+              <div class="item">Nueva ventana</div>
+              <div class="divider"></div>
+              <div class="item">Nueva ventana</div>
+              <div class="item">Nueva ventana</div>
+            </div>
+          </div>
+<div class="menu-button" has-dropdown>
+            Archivo
+            <div class="dropdown has-blur-bg hide">
+              <div class="item">
+                Nueva ventana
+                <div class="key">NN</div>
+              </div>
+              <div class="item">
+                Nueva ventana
+                <div class="key">NN</div>
+              </div>
+              <div class="item">Nueva ventana</div>
+              <div class="divider"></div>
+              <div class="item">Nueva ventana</div>
+              <div class="item">Nueva ventana</div>
+            </div>
+          </div>
+<div class="menu-button" has-dropdown>
+            Archivo
+            <div class="dropdown has-blur-bg hide">
+              <div class="item">
+                Nueva ventana
+                <div class="key">NN</div>
+              </div>
+              <div class="item">
+                Nueva ventana
+                <div class="key">NN</div>
+              </div>
+              <div class="item">Nueva ventana</div>
+              <div class="divider"></div>
+              <div class="item">Nueva ventana</div>
+              <div class="item">Nueva ventana</div>
+            </div>
+          </div>
           <div class="menu-button" has-dropdown>
             Archivo
             <div class="dropdown has-blur-bg hide">
@@ -39,10 +122,6 @@
               <div class="item">Nueva ventana</div>
             </div>
           </div>
-          <div class="menu-button">Edición</div>
-          <div class="menu-button">Visualización</div>
-          <div class="menu-button">Historial</div>
-          <div class="menu-button">Ventana</div>
         </div>
         <div class="spacer"></div>
         <div class="topbar-right">
@@ -69,9 +148,11 @@
         <div></div>
       </div>
 
-      <div class="spotlight has-blur-bg hide">
-        <i class="fas fa-search"></i>
-        <input type="" placeholder="Búsqueda en Spotlight" />
+      <div class="spotlight-container hide" toggle-spotlight>
+        <div class="spotlight has-blur-bg">
+          <i class="fas fa-search"></i>
+          <input type="" placeholder="Búsqueda en Spotlight" />
+        </div>
       </div>
 
       <div class="widgets hide">
@@ -92,11 +173,12 @@
         is-draggable
         class="window terminal has-blur-bg has-inner-glow"
       >
+      <div class="drop-top"></div>
         <div class="window-top" >
           <div class="window-actions-icon">
-            <div class="red"></div>
-            <div class="yellow"></div>
-            <div class="green"></div>
+            <div class="red" close-window></div>
+            <div class="yellow" minimize-window></div>
+            <div class="green" maximize-window></div>
           </div>
         </div>
         <div class="window-container" disable-draggable>
@@ -120,6 +202,7 @@
         "
         class="window safari has-blur-bg has-inner-glow"
       >
+      <div class="drop-top"></div>
         <div class="window-top large">
 
 
@@ -144,26 +227,33 @@
             <div class="icon-button">
               <i class="fab fa-apple"></i>
             </div>
-            <div class="icon-button">
-              <i class="fab fa-apple"></i>
+          </div>
+
+
+
+          <div class="url-input" disable-draggable>
+            <div class="input-container">
+
+              <div class="label-url">
+                <i class="fab fa-lock"></i>
+                <span>
+                  Google.com
+                </span>
+              </div>
+
+              <input type="text" value="https://www.google.com/someRandomText?client=projas">
+              <i class="fab fa-reload"></i>
+              <i class="fas fa-globe"></i>
             </div>
+          </div>
+
+
+          <div class="window-icons">
             <div class="icon-button">
               <i class="fab fa-apple"></i>
             </div>
           </div>
 
-
-
-          <div class="url-input">
-            <span class="url-label">google.com</span>
-            <input type="text" value="https://www.google.com/someRandomText?client=projas">
-            <i class="fab fa-lock"></i>
-            <i class="fab fa-reload"></i>
-            <i class="fas fa-globe"></i>
-          </div>
-
-
-          <div class="spacer"></div>
           <div class="spacer"></div>
 
 

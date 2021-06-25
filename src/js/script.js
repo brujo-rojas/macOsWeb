@@ -50,9 +50,6 @@ let refreshDock = function (e) {
     diffRight = diffRight >  diffMax ?  diffMax : diffRight;
     diffRight = diffRight > 0 ? diffRight : 0;
 
-    console.log("mouseX - dockWidth", mouseX, dockWidth);
-    console.log("diffLeft - diffRight", diffLeft, diffRight);
-
     lastMouseX = mouseX;
 
     let marginLeft =  diffLeft/2 + "px";
@@ -71,7 +68,6 @@ let refreshDock = function (e) {
 
 let clearDock = function () {
   if(isMouseOnDock) return false;
-  console.log("-------- clear dock ------");
   dock.style.transform = "scaleY(1)";
   icons.forEach((iconContainer) => {
     let icon = iconContainer.children[0];
@@ -114,6 +110,7 @@ dock.addEventListener("mouseleave", (e) => {
 
 let draggableWindows = root.querySelectorAll(".window[is-draggable]");
 let activeWindow = null;
+let eventDraggWindows= null;
 
 function setActiveWindow(elem){
   activeWindow = elem;
@@ -128,18 +125,34 @@ function isDraggable(e){
   let mouseXOnWindow = e.clientX - rect.x;
   let mouseYOnWindow = e.clientY - rect.y;
 
+  //deshabilitado drag en borde inferior y derecho, para permitir resize
   if(mouseXOnWindow > rect.width - 30) return false;
   if(mouseYOnWindow > rect.height - 30) return false;
+
   if(activeWindow.classList.contains("maximize")) return false;
+  if(eventDraggWindows.target.closest("[disable-draggable]")) return false;
 
   return true
 }
 
 function onDrag(e) {
+  if(e.button !== 0) return;
+
+  if(eventDraggWindows === null){
+    eventDraggWindows = e;
+    eventDraggWindows.target.closest(".window").classList.add("dragging");
+  }
   if( isDraggable(e)){
     let targetStyle = window.getComputedStyle(activeWindow)
-    activeWindow.style.left = parseInt(targetStyle .left) + e.movementX + 'px'
-    activeWindow.style.top = parseInt(targetStyle .top) + e.movementY + 'px'
+
+    //activeWindow.style.transform = "translate( "+ e.clientX+ 'px,'+ e.clientY+ 'px)'
+
+    let left =  parseInt(targetStyle.left) + e.movementX;
+    let top =  parseInt(targetStyle.top) + e.movementY;
+
+    activeWindow.style.left = (left > 0 ? left : 0 ) + 'px';
+    activeWindow.style.top = (top > 0 ? top : 0 ) + 'px';
+
   }
   e.stopPropagation();
 }
@@ -147,6 +160,13 @@ function onDrag(e) {
 function onLetGo() {
 	document.removeEventListener('mousemove', onDrag)
   document.removeEventListener('mouseup', onLetGo)
+  if(eventDraggWindows){
+    let dragWindows = eventDraggWindows.target.closest(".window");
+    if(dragWindows){
+      dragWindows.classList.remove("dragging");
+    }
+    eventDraggWindows = null;
+  }
 }
 
 function onGrab() {
@@ -158,10 +178,6 @@ function onGrab() {
 draggableWindows.forEach(elem => {
   elem.addEventListener("mousedown", e => setActiveWindow(elem));
   elem.addEventListener("mousedown", onGrab);
-  let disableDraggable = elem.querySelectorAll("[disable-draggable]");
-  disableDraggable.forEach(elem => {
-    elem.addEventListener("mousedown",e => e.stopPropagation());
-  })
 });
 
 
@@ -202,18 +218,26 @@ toggleControlPanel.addEventListener("click", (e) => {
 
 
 
-let toggleSpotlight = root.querySelector("[toggle-spotlight]");
-let spotlight = root.querySelector(".spotlight");
 
-toggleSpotlight.addEventListener("click", (e) => {
-  let isHidden = spotlight.classList.contains("hide");
-  if (isHidden) {
-    spotlight.classList.remove("hide");
-    toggleSpotlight.classList.remove("active");
-  } else {
-    spotlight.classList.add("hide");
-    toggleSpotlight.classList.add("active");
-  }
+
+
+let toggleSpotlightButtons = root.querySelectorAll("[toggle-spotlight]");
+let spotlightContainer = root.querySelector(".spotlight-container");
+let spotlight = spotlightContainer.querySelector(".spotlight");
+
+spotlight.addEventListener("click" , e => e.stopPropagation());
+
+toggleSpotlightButtons.forEach(toggleSpotlight=> {
+  toggleSpotlight.addEventListener("click", (e) => {
+    let isHidden = spotlightContainer.classList.contains("hide");
+    if (isHidden) {
+      spotlightContainer.classList.remove("hide");
+      toggleSpotlight.classList.remove("active");
+    } else {
+      spotlightContainer.classList.add("hide");
+      toggleSpotlight.classList.add("active");
+    }
+  });
 });
 
 
@@ -226,21 +250,47 @@ toggleSpotlight.addEventListener("click", (e) => {
 
 
 
-let toggleMenuItem = function (dropdownButton, e) {
-  let dropdown = dropdownButton.querySelector(".dropdown");
-  if (dropdown.classList.contains("hide")) {
-    dropdown.classList.remove("hide");
-    dropdownButton.classList.add("active");
-  } else {
-    dropdown.classList.add("hide");
-    dropdownButton.classList.remove("active");
+let isMenuActive = false;
+let toggleMenuActive = function (dropdownButton, e) {
+  isMenuActive = !isMenuActive;
+  if(isMenuActive){
+    showMenu(dropdownButton, e);
+  }else{
+    hideMenu(dropdownButton, e);
   }
+}
+
+let showMenu = function (dropdownButton, e) {
+  if(isMenuActive){
+
+    let dropdown = dropdownButton.querySelector(".dropdown");
+
+    dropdownButtons.forEach(d => d != dropdownButton ? hideMenu(d) : null );
+
+    if (dropdown.classList.contains("hide")) {
+      dropdown.classList.remove("hide");
+      dropdownButton.classList.add("active");
+    }
+  }
+};
+
+let hideMenu = function (dropdownButton, e) {
+    let dropdown = dropdownButton.querySelector(".dropdown");
+    if (!dropdown.classList.contains("hide")) {
+      dropdown.classList.add("hide");
+      dropdownButton.classList.remove("active");
+    }
 };
 
 let dropdownButtons = root.querySelectorAll("[has-dropdown]");
 dropdownButtons.forEach((ddb) => {
-  ddb.addEventListener("click", (e) => toggleMenuItem(ddb, e));
+  ddb.addEventListener("click", (e) => toggleMenuActive(ddb, e));
+  ddb.addEventListener("mouseover", (e) => showMenu(ddb, e));
 });
+
+
+
+
 
 
 
@@ -252,9 +302,49 @@ toggleMaximizeWindow.forEach(btn => {
   let elemWindow = btn.closest(".window");
   if(elemWindow){
     btn.addEventListener("click", (e) => {
-      elemWindow.classList.toggle("maximize");
+      elemWindow.classList.toggle("maximized");
     })
   }
 })
+
+
+
+
+let minimizeWindowButtons = root.querySelectorAll("[minimize-window]");
+
+minimizeWindowButtons.forEach(btn => {
+  let elemWindow = btn.closest(".window");
+  if(elemWindow){
+    btn.addEventListener("click", (e) => {
+      elemWindow.classList.toggle("minimized");
+    })
+  }
+})
+
+let dropTops= root.querySelectorAll(".drop-top");
+
+dropTops.forEach(btn => {
+  let elemWindow = btn.closest(".window");
+  if(elemWindow){
+    btn.addEventListener("click", (e) => {
+      elemWindow.classList.toggle("minimized");
+    })
+  }
+})
+
+
+
+
+let closeWindowButtons = root.querySelectorAll("[close-window]");
+
+closeWindowButtons.forEach(btn => {
+  let elemWindow = btn.closest(".window");
+  if(elemWindow){
+    btn.addEventListener("click", (e) => {
+      elemWindow.classList.toggle("closed");
+    })
+  }
+})
+
 
 

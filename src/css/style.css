@@ -92,43 +92,41 @@ html {
       #macos .topbar .topbar-menu > .menu-button.active, #macos .topbar .topbar-menu > .menu-button:active {
         background: rgba(255, 255, 255, 0.2);
         backdrop-filter: saturate(100%); }
-      #macos .topbar .topbar-menu > .menu-button .dropdown {
-        min-width: 300px;
-        border-radius: 6px;
+  #macos .topbar .dropdown {
+    min-width: 300px;
+    border-radius: 6px;
+    position: absolute;
+    top: var(--topbarHeight);
+    left: 0px;
+    padding: 0.25rem;
+    background: rgba(40, 40, 40, 0.8);
+    display: flex;
+    flex-flow: column;
+    box-shadow: 0px 0px 0px 1px black, 0 5px 20px rgba(0, 0, 0, 0.55);
+    border: 1px solid rgba(255, 255, 255, 0.2); }
+    #macos .topbar .dropdown.hide {
+      display: none; }
+    #macos .topbar .dropdown .divider {
+      margin: 0.25rem 0.5rem;
+      line-height: 1.3rem;
+      border-radius: 3px;
+      height: 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.3); }
+    #macos .topbar .dropdown .item {
+      padding: 0 0.5rem;
+      line-height: 1.25rem;
+      border-radius: 3px;
+      opacity: 0.75;
+      position: relative; }
+      #macos .topbar .dropdown .item.active, #macos .topbar .dropdown .item:hover {
+        background: var(--accentColor); }
+        #macos .topbar .dropdown .item.active .key, #macos .topbar .dropdown .item:hover .key {
+          opacity: 1; }
+      #macos .topbar .dropdown .item .key {
         position: absolute;
-        top: var(--topbarHeight);
-        left: 0px;
-        padding: 0.25rem;
-        background: rgba(40, 40, 40, 0.8);
-        display: flex;
-        flex-flow: column;
-        box-shadow: 0px 0px 0px 1px black, 0 5px 20px rgba(0, 0, 0, 0.55);
-        border: 1px solid rgba(255, 255, 255, 0.2); }
-        #macos .topbar .topbar-menu > .menu-button .dropdown.hide {
-          display: none; }
-        #macos .topbar .topbar-menu > .menu-button .dropdown .divider {
-          margin: 0.25rem 0.5rem;
-          line-height: 1.3rem;
-          border-radius: 3px;
-          height: 0;
-          border-bottom: 1px solid rgba(255, 255, 255, 0.3); }
-        #macos .topbar .topbar-menu > .menu-button .dropdown .item {
-          padding: 0 0.5rem;
-          line-height: 1.25rem;
-          border-radius: 3px;
-          opacity: 0.75;
-          position: relative; }
-          #macos .topbar .topbar-menu > .menu-button .dropdown .item.active, #macos .topbar .topbar-menu > .menu-button .dropdown .item:hover {
-            background: var(--accentColor); }
-            #macos .topbar .topbar-menu > .menu-button .dropdown .item.active .key, #macos .topbar .topbar-menu > .menu-button .dropdown .item:hover .key {
-              opacity: 1; }
-          #macos .topbar .topbar-menu > .menu-button .dropdown .item .key {
-            position: absolute;
-            right: 0.5rem;
-            top: 0px;
-            opacity: 0.4; }
-      #macos .topbar .topbar-menu > .menu-button.app-name {
-        font-weight: 700; }
+        right: 0.5rem;
+        top: 0px;
+        opacity: 0.4; }
   #macos .topbar .topbar-right {
     display: flex; }
     #macos .topbar .topbar-right .topbar-button {
@@ -258,14 +256,33 @@ html {
   background: rgba(40, 40, 40, 0.8);
   box-shadow: 0px 0px 0px 1px black, 0 20px 70px rgba(0, 0, 0, 0.55);
   border: 1px solid rgba(255, 255, 255, 0.2); }
-  #macos .window.maximize {
+  #macos .window:not(.dragging) {
+    transition: 0.2s all ease; }
+  #macos .window.maximized {
     width: 100% !important;
     top: var(--topbarHeight) !important;
     left: 0px !important;
-    height: calc( 100% - (var(--icon-size) + 1.25rem) - var(--topbarHeight)) !important;
-    transition: 0.1s width ease, 0.1s height ease; }
+    height: calc( 100% - (var(--icon-size) + 1.25rem) - var(--topbarHeight)) !important; }
+  #macos .window.minimized {
+    transform: scale(0.1);
+    left: 1rem !important;
+    top: 70% !important; }
+    #macos .window.minimized .drop-top {
+      width: 100%;
+      height: 100%; }
+  #macos .window.closed {
+    width: 100% !important;
+    top: var(--topbarHeight) !important;
+    left: 0px !important;
+    height: calc( 100% - (var(--icon-size) + 1.25rem) - var(--topbarHeight)) !important; }
   #macos .window.active {
     z-index: 2; }
+  #macos .window .drop-top {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width: 0px;
+    height: 0px; }
   #macos .window .window-top {
     height: 1.75rem;
     padding: 0.25rem 0.25rem;
@@ -311,21 +328,61 @@ html {
     #macos .window .window-top .url-input {
       flex: 10 0 auto;
       width: auto;
+      align-items: center;
+      color: white;
+      display: flex;
       align-items: center; }
-      #macos .window .window-top .url-input input {
+      #macos .window .window-top .url-input .input-container {
         background: rgba(255, 255, 255, 0.1);
         width: 100%;
-        height: auto;
-        border: none;
         border-radius: 5px;
-        line-height: 1.5rem;
-        color: white;
-        outline: none;
-        box-shadow: 0px 0px 20px 0px transparent;
-        text-align: center;
-        transition: 0.2s all ease; }
-        #macos .window .window-top .url-input input:focus {
-          box-shadow: 0px 0px 2px 2px red; }
+        padding: 0px 2rem;
+        position: relative;
+        display: flex;
+        flex-flow: row;
+        align-items: center;
+        box-shadow: 0px 0px 1px 8px transparent; }
+        #macos .window .window-top .url-input .input-container:focus-within {
+          transition: 0.3s all ease;
+          box-shadow: 0px 0px 4px 2px var(--accentColor); }
+          #macos .window .window-top .url-input .input-container:focus-within .label-url {
+            opacity: 0;
+            transform: translateX(-200px); }
+        #macos .window .window-top .url-input .input-container input {
+          background: transparent;
+          width: calc(100% - 200px);
+          height: auto;
+          border: none;
+          line-height: 1.5rem;
+          outline: none;
+          text-align: left;
+          transform: translateX(200px);
+          transition: 0.4s opacity ease, 0.4s transform ease;
+          padding: 0px;
+          opacity: 0;
+          color: inherit; }
+          #macos .window .window-top .url-input .input-container input:focus {
+            width: 100%;
+            opacity: 1;
+            transform: translateX(0px); }
+        #macos .window .window-top .url-input .input-container .label-url {
+          display: block;
+          position: absolute;
+          width: 100%;
+          height: 100%;
+          transition: 0.4s opacity ease, 0.4s transform ease;
+          opacity: 1;
+          text-align: center; }
+          #macos .window .window-top .url-input .input-container .label-url span {
+            pointer-events: none; }
+        #macos .window .window-top .url-input .input-container .fa-reload {
+          position: absolute;
+          right: 0.5rem;
+          top: 0.25rem; }
+        #macos .window .window-top .url-input .input-container .fa-globe {
+          position: absolute;
+          left: 0.5rem;
+          top: 0.25rem; }
   #macos .window .window-tabs {
     flex: 1 1 auto;
     background: rgba(15, 15, 15, 0.8);
@@ -445,39 +502,45 @@ html {
         background: rgba(255, 255, 255, 0.2);
         border-radius: 1px; }
 
-#macos .spotlight {
-  width: 40rem;
-  height: 3.6rem;
+#macos .spotlight-container {
   position: absolute;
-  left: calc(50% - 20rem);
-  top: 40%;
-  z-index: 30;
-  background: rgba(40, 40, 40, 0.8);
-  box-shadow: 0px 0px 0px 1px black, 0 20px 70px rgba(0, 0, 0, 0.55);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 8px; }
-  #macos .spotlight.hide {
+  left: 0px;
+  top: 0px;
+  width: 100%;
+  height: 100%;
+  z-index: 30; }
+  #macos .spotlight-container.hide {
     display: none; }
-  #macos .spotlight .fas.fa-search {
-    font-size: 1.8rem;
+  #macos .spotlight-container .spotlight {
+    width: 40rem;
+    height: 3.6rem;
     position: absolute;
-    left: 0.9rem;
-    top: 0.9rem;
-    color: rgba(255, 255, 255, 0.8); }
-  #macos .spotlight input {
-    padding-left: 3.6rem;
-    position: absolute;
-    right: 0px;
-    top: 0px;
-    border: none;
-    font-size: 1.8rem;
-    width: 100%;
-    height: 100%;
-    background: transparent;
-    outline: none;
-    color: rgba(255, 255, 255, 0.8); }
-    #macos .spotlight input::placeholder {
-      color: rgba(255, 255, 255, 0.4); }
+    left: calc(50% - 20rem);
+    top: 40%;
+    background: rgba(40, 40, 40, 0.8);
+    box-shadow: 0px 0px 0px 1px black, 0 20px 70px rgba(0, 0, 0, 0.55);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px; }
+    #macos .spotlight-container .spotlight .fa-search {
+      font-size: 1.8rem;
+      position: absolute;
+      left: 0.9rem;
+      top: 0.9rem;
+      color: rgba(255, 255, 255, 0.8); }
+    #macos .spotlight-container .spotlight input {
+      padding-left: 3.6rem;
+      position: absolute;
+      right: 0px;
+      top: 0px;
+      border: none;
+      font-size: 1.8rem;
+      width: 100%;
+      height: 100%;
+      background: transparent;
+      outline: none;
+      color: rgba(255, 255, 255, 0.8); }
+      #macos .spotlight-container .spotlight input::placeholder {
+        color: rgba(255, 255, 255, 0.4); }
 
 #window-1.window {
   left: 50px;
