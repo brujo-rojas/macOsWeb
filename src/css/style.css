@@ -1,6 +1,6 @@
 :root {
   --accentColor: rgba(10, 130, 255, 1);
-  --topbarHeight: 1.5rem;
+  --topbarHeight: 1.8rem;
   --icon-size: 36px;
   --color-title-bar: rgba(60, 60, 60, 0.8);
   --color-header-view: rgba(30, 30, 30, 0.8);
@@ -62,32 +62,34 @@ html {
   width: 100%;
   height: var(--topbarHeight);
   max-height: var(--topbarHeight);
-  line-height: 1.6rem;
   color: white;
   padding: 0 0.5rem;
   display: flex;
+  align-items: center;
   z-index: 30; }
   #macos .topbar .apple-btn {
     padding: 0 0.75rem;
-    line-height: 1.5rem;
+    font-size: 1.1rem;
     border-radius: 5px;
     margin: 0 -0.125rem; }
     #macos .topbar .apple-btn:active {
       background: rgba(255, 255, 255, 0.2);
-      backdrop-filter: saturate(100%); }
+      backdrop-filter: saturate(50%); }
   #macos .topbar .topbar-menu {
     align-content: center;
     display: flex;
     flex: 1 1 auto;
-    font-size: 0.75rem;
-    line-height: inherit; }
+    font-size: 0.875rem;
+    line-height: inherit;
+    align-items: baseline; }
     #macos .topbar .topbar-menu > .menu-button {
       padding: 0 1rem;
       border-radius: 5px;
       display: inline-flex;
       font-weight: normal;
       margin: 0 -0.325rem;
-      line-height: var(--topbarHeight);
+      line-height: 2.2em;
+      height: var(--topbarHeight);
       position: relative; }
       #macos .topbar .topbar-menu > .menu-button.active, #macos .topbar .topbar-menu > .menu-button:active {
         background: rgba(255, 255, 255, 0.2);
@@ -99,6 +101,7 @@ html {
     top: var(--topbarHeight);
     left: 0px;
     padding: 0.25rem;
+    font-size: 0.875rem;
     background: rgba(40, 40, 40, 0.8);
     display: flex;
     flex-flow: column;
@@ -114,13 +117,17 @@ html {
       border-bottom: 1px solid rgba(255, 255, 255, 0.3); }
     #macos .topbar .dropdown .item {
       padding: 0 0.5rem;
-      line-height: 1.25rem;
+      line-height: 1.5rem;
       border-radius: 3px;
-      opacity: 0.75;
+      opacity: 0.9;
       position: relative; }
-      #macos .topbar .dropdown .item.active, #macos .topbar .dropdown .item:hover {
+      #macos .topbar .dropdown .item.disabled {
+        opacity: 0.4; }
+        #macos .topbar .dropdown .item.disabled .key {
+          opacity: 1; }
+      #macos .topbar .dropdown .item:not(.disabled):hover {
         background: var(--accentColor); }
-        #macos .topbar .dropdown .item.active .key, #macos .topbar .dropdown .item:hover .key {
+        #macos .topbar .dropdown .item:not(.disabled):hover .key {
           opacity: 1; }
       #macos .topbar .dropdown .item .key {
         position: absolute;
@@ -130,7 +137,7 @@ html {
   #macos .topbar .topbar-right {
     display: flex; }
     #macos .topbar .topbar-right .topbar-button {
-      font-size: 0.75rem;
+      font-size: 0.875rem;
       padding: 0 0.5rem;
       border-radius: 5px;
       margin: 0 -0.125rem; }
@@ -191,6 +198,13 @@ html {
   transition: 0.3s right ease; }
   #macos .widgets.hide {
     right: calc(-1 * (300px + 2rem)); }
+  #macos .widgets.left {
+    left: 0px;
+    right: unset;
+    transition: 0.3s left ease; }
+    #macos .widgets.left.hide {
+      right: unset;
+      left: calc(-1 * (300px + 2rem)); }
   #macos .widgets .widgets-blur-bg {
     position: absolute;
     right: 0px;
@@ -234,7 +248,61 @@ html {
         margin: 0.45rem;
         border-radius: 50%;
         width: calc(100% - 0.9rem);
-        height: calc(100% - 0.9rem); }
+        height: calc(100% - 0.9rem);
+        position: absolute;
+        left: 0px;
+        top: 0px; }
+      #macos .widgets .widgets-container .widget.widget-clock .numbers {
+        position: absolute;
+        left: 0.6rem;
+        top: 0.6rem;
+        width: calc(100% - 1.1rem);
+        height: calc(100% - 1.1rem); }
+        #macos .widgets .widgets-container .widget.widget-clock .numbers .number {
+          position: absolute;
+          font-size: 1.25rem;
+          width: 1em;
+          height: 1em;
+          font-weight: bold;
+          color: white;
+          margin: -0.5em;
+          text-align: center; }
+          #macos .widgets .widgets-container .widget.widget-clock .numbers .number.n-12 {
+            top: 0.5em;
+            left: 50%; }
+          #macos .widgets .widgets-container .widget.widget-clock .numbers .number.n-1 {
+            top: 1em;
+            right: 1.5em; }
+          #macos .widgets .widgets-container .widget.widget-clock .numbers .number.n-2 {
+            top: 2em;
+            right: 1em; }
+          #macos .widgets .widgets-container .widget.widget-clock .numbers .number.n-3 {
+            top: 50%;
+            right: 0.5em; }
+          #macos .widgets .widgets-container .widget.widget-clock .numbers .number.n-4 {
+            bottom: 2em;
+            right: 1em; }
+          #macos .widgets .widgets-container .widget.widget-clock .numbers .number.n-5 {
+            bottom: 1em;
+            right: 2em; }
+          #macos .widgets .widgets-container .widget.widget-clock .numbers .number.n-6 {
+            bottom: 0.5em;
+            left: 50%; }
+          #macos .widgets .widgets-container .widget.widget-clock .numbers .number.n-7 {
+            left: 1.55em;
+            bottom: 1em; }
+          #macos .widgets .widgets-container .widget.widget-clock .numbers .number.n-8 {
+            left: 1em;
+            bottom: 2em; }
+          #macos .widgets .widgets-container .widget.widget-clock .numbers .number.n-9 {
+            left: 0.5em;
+            top: 50%; }
+          #macos .widgets .widgets-container .widget.widget-clock .numbers .number.n-10 {
+            left: 1em;
+            top: 2em; }
+          #macos .widgets .widgets-container .widget.widget-clock .numbers .number.n-11 {
+            left: 2em;
+            top: 1em; }
       #macos .widgets .widgets-container .widget.widget-calendar {
         background: #1e1e1e; }
       #macos .widgets .widgets-container .widget.widget-weather {
@@ -265,16 +333,18 @@ html {
     height: calc( 100% - (var(--icon-size) + 1.25rem) - var(--topbarHeight)) !important; }
   #macos .window.minimized {
     transform: scale(0.1);
-    left: 1rem !important;
+    left: 0px;
     top: 70% !important; }
     #macos .window.minimized .drop-top {
       width: 100%;
       height: 100%; }
   #macos .window.closed {
-    width: 100% !important;
-    top: var(--topbarHeight) !important;
-    left: 0px !important;
-    height: calc( 100% - (var(--icon-size) + 1.25rem) - var(--topbarHeight)) !important; }
+    transform: scale(0);
+    left: 0px;
+    top: 70% !important; }
+    #macos .window.closed .drop-top {
+      width: 100%;
+      height: 100%; }
   #macos .window.active {
     z-index: 2; }
   #macos .window .drop-top {
@@ -384,7 +454,7 @@ html {
           left: 0.5rem;
           top: 0.25rem; }
   #macos .window .window-tabs {
-    flex: 1 1 auto;
+    flex: 0 0 1.5rem;
     background: rgba(15, 15, 15, 0.8);
     display: flex;
     flex-flow: row;
@@ -393,7 +463,8 @@ html {
       height: 1.5rem;
       flex: 1 0 auto;
       justify-items: center;
-      display: flex; }
+      display: flex;
+      margin-top: -1px; }
       #macos .window .window-tabs .tab.active {
         background: rgba(55, 55, 55, 0.9); }
       #macos .window .window-tabs .tab .tab-title {
@@ -423,7 +494,8 @@ html {
       display: flex;
       align-items: flex-end;
       border: 1px solid rgba(255, 255, 255, 0.18);
-      box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.4), 0 20px 70px rgba(0, 0, 0, 0.55); }
+      box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.4), 0 20px 70px rgba(0, 0, 0, 0.55);
+      transition: 1s all ease-in-out; }
       #macos .dock-outside .dock-container .dock .icon-container {
         margin-top: 0.125em;
         margin-bottom: 0.25em;

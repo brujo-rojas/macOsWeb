@@ -26,12 +26,14 @@ let refreshIconSize = function (e, iconContainer) {
   let mouseX          = e.clientX;
   let iconX           = icon.getBoundingClientRect().x; //left of icon
   iconX              += icon.getBoundingClientRect().width / 2; //centered icon
-  let diffpx          = Math.abs(mouseX - iconX);
+  let diffpx = Math.abs(mouseX - iconX);
   let aditionalScale  = diffpx < space ? (space - diffpx) / space : 0;
+  //aditionalScale = Math.sqrt(aditionalScale);
   aditionalScale     *= scaleMagnificent;
   let iconScale       = scale + (aditionalScale > 0 ? aditionalScale : 0);
 
   iconContainer.style.width = "calc("+iconScale * iconSize + "px + "+ (iconScale * 0.5 )+"rem)"; 
+
   icon.style.transform = "scale(" + iconScale + ")";
 };
 
@@ -341,9 +343,36 @@ closeWindowButtons.forEach(btn => {
   let elemWindow = btn.closest(".window");
   if(elemWindow){
     btn.addEventListener("click", (e) => {
-      elemWindow.classList.toggle("closed");
+      elemWindow.classList.add("closed");
     })
   }
+})
+
+
+let openWindowButtons = root.querySelectorAll("[open]");
+
+openWindowButtons.forEach(btn => {
+  let elemWindow = root.querySelector(btn.getAttribute("open"));
+  if(elemWindow){
+    btn.addEventListener("click", (e) => {
+      elemWindow.classList.remove("closed");
+      elemWindow.classList.remove("minimized");
+      setActiveWindow(elemWindow);
+    })
+  }
+})
+
+
+let windowTabs = root.querySelectorAll(".window-tabs");
+
+windowTabs.forEach(windowTab => {
+    let tabs = windowTab.querySelectorAll(".tab");
+    tabs.forEach(tab => {
+      tab.addEventListener("click", (e) => {
+        tabs.forEach(t => t.classList.remove("active"));
+        tab.classList.add("active");
+      })
+    })
 })
 
 

@@ -1,6 +1,6 @@
 :root {
   --accentColor: rgba(10, 130, 255, 1);
-  --topbarHeight: 1.5rem;
+  --topbarHeight: 1.8rem;
   --icon-size: 36px;
 
   --color-title-bar: rgba(60, 60, 60, 0.8);
@@ -69,28 +69,29 @@ html {
     width: 100%;
     height: var(--topbarHeight);
     max-height: var(--topbarHeight);
-    line-height: 1.6rem;
     color: white;
     padding: 0 0.5rem;
     display: flex;
+    align-items: center;
     z-index: 30;
 
     .apple-btn {
       padding: 0 0.75rem;
-      line-height: 1.5rem;
+      font-size: 1.1rem;
       border-radius: 5px;
       margin: 0 -0.125rem;
       &:active {
         background: rgba(255, 255, 255, 0.2); //test
-        backdrop-filter: saturate(100%);
+        backdrop-filter: saturate(50%);
       }
     }
     .topbar-menu {
       align-content: center;
       display: flex;
       flex: 1 1 auto;
-      font-size: 0.75rem;
+      font-size: 0.875rem;
       line-height: inherit;
+      align-items: baseline;
 
       & > .menu-button {
         padding: 0 1rem;
@@ -98,7 +99,8 @@ html {
         display: inline-flex;
         font-weight: normal;
         margin: 0 -0.325rem;
-        line-height: var(--topbarHeight);
+        line-height: 2.2em;
+        height: var(--topbarHeight);
         position: relative;
 
         &.active,
@@ -116,6 +118,7 @@ html {
         top: var(--topbarHeight);
         left: 0px;
         padding: 0.25rem;
+        font-size: 0.875rem;
 
         background: rgba(40, 40, 40, 0.8);
         display: flex;
@@ -136,12 +139,17 @@ html {
         }
         .item {
           padding: 0 0.5rem;
-          line-height: 1.25rem;
+          line-height: 1.5rem;
           border-radius: 3px;
-          opacity: 0.75;
+          opacity: 0.9;
           position: relative;
-          &.active,
-          &:hover {
+          &.disabled{
+            opacity: 0.4;
+            .key{
+              opacity: 1;
+            }
+          }
+          &:not(.disabled):hover{
             background: var(--accentColor);
             .key {
               opacity: 1;
@@ -160,7 +168,7 @@ html {
     .topbar-right {
       display: flex;
       .topbar-button {
-        font-size: 0.75rem;
+        font-size: 0.875rem;
         padding: 0 0.5rem;
         border-radius: 5px;
         margin: 0 -0.125rem;
@@ -251,6 +259,16 @@ html {
       right: calc(-1 * (300px + 2rem));
     }
 
+    &.left{
+      left: 0px;
+      right: unset;
+      transition: 0.3s left ease;
+      &.hide{
+        right: unset;
+        left: calc(-1 * (300px + 2rem));
+      }
+    }
+
     .widgets-blur-bg {
       position: absolute;
       right: 0px;
@@ -301,6 +319,85 @@ html {
             border-radius: 50%;
             width: calc(100% - 0.9rem);
             height: calc(100% - 0.9rem);
+            position: absolute;
+            left: 0px;
+            top: 0px;
+          }
+          .numbers {
+            position: absolute;
+            left: 0.6rem;
+            top: 0.6rem;
+            width: calc(100% - 1.1rem);
+            height: calc(100% - 1.1rem);
+            .number {
+              position: absolute;
+              font-size: 1.25rem;
+              width: 1em;
+              height: 1em;
+              font-weight: bold;
+              color: white;
+              margin: -0.5em;
+              text-align: center;
+
+              &.n-12 {
+                top: 0.5em;
+                left: 50%;
+              }
+
+              &.n-1 {
+                top: 1em;
+                right: 1.5em;
+              }
+
+              &.n-2 {
+                top: 2em;
+                right: 1em;
+              }
+
+              &.n-3 {
+                top: 50%;
+                right: 0.5em;
+              }
+
+              &.n-4 {
+                bottom:2em;
+                right: 1em;
+              }
+
+
+              &.n-5 {
+                bottom: 1em;
+                right: 2em;
+              }
+              &.n-6 {
+                bottom: 0.5em;
+                left: 50%;
+              }
+
+              &.n-7 {
+                left: 1.55em;
+                bottom: 1em;
+              }
+
+              &.n-8 {
+                left: 1em;
+                bottom: 2em;
+              }
+
+              &.n-9 {
+                left: 0.5em;
+                top: 50%;
+              }
+
+              &.n-10 {
+                left: 1em;
+                top: 2em;
+              }
+              &.n-11 {
+                left: 2em;
+                top: 1em;
+              }
+            }
           }
         }
         &.widget-calendar {
@@ -353,7 +450,7 @@ html {
 
     &.minimized{
       transform: scale(0.1);
-      left: 1rem !important;
+      left: 0px;
       top: 70% !important;
       .drop-top{
         width: 100%;
@@ -362,10 +459,13 @@ html {
     }
 
     &.closed{
-      width: 100% !important;
-      top: var(--topbarHeight) !important;
-      left: 0px !important;
-      height: calc( 100% - (var(--icon-size) + 1.25rem) - var(--topbarHeight)) !important;
+      transform: scale(0);
+      left: 0px;
+      top: 70% !important;
+      .drop-top{
+        width: 100%;
+        height: 100%;
+      }
     }
 
     &.active {
@@ -512,7 +612,7 @@ html {
       }
     }
     .window-tabs {
-      flex: 1 1 auto;
+      flex: 0 0 1.5rem;
       background: rgba(15, 15, 15, 0.8);
       display: flex;
       flex-flow:row;
@@ -522,6 +622,7 @@ html {
         flex: 1 0 auto;
         justify-items:center;
         display: flex;
+        margin-top: -1px;
           &.active{
             background: rgba(55, 55, 55, 0.9);
           }
@@ -575,6 +676,7 @@ html {
         border: 1px solid rgba(255, 255, 255, 0.18);
         box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.4),
           0 20px 70px rgba(0, 0, 0, 0.55);
+          transition: 1s all ease-in-out;
 
         .icon-container {
           margin-top: 0.125em;
