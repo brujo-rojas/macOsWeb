@@ -18,10 +18,6 @@ html {
   margin: 0px;
   padding: 0px; }
 
-* {
-  box-sizing: border-box !important;
-  cursor: default; }
-
 #macos {
   background: var(--img-bg) no-repeat center center fixed;
   background-size: cover;
@@ -29,7 +25,11 @@ html {
   width: 100%;
   overflow: hidden;
   position: relative;
-  font-family: "San Francisco";
+  font-family: "San Francisco"; }
+
+#macos * {
+  box-sizing: border-box !important;
+  cursor: default;
   user-select: none; }
 
 #macos .has-blur-bg {
@@ -235,7 +235,7 @@ html {
 #macos .window {
   min-width: 100px;
   min-height: 100px;
-  border-radius: 8px;
+  border-radius: 12px;
   position: absolute;
   left: 10%;
   top: 10%;
@@ -251,7 +251,7 @@ html {
     top: var(--topbarHeight) !important;
     left: 0px !important;
     height: calc( 100% - (var(--icon-size) + 1.25rem) - var(--topbarHeight)) !important;
-    transition: 0.2s  all ease; }
+    transition: 0.1s width ease, 0.1s height ease; }
   #macos .window.active {
     z-index: 2; }
   #macos .window .window-top {
@@ -261,40 +261,45 @@ html {
     border-bottom: 1px solid black;
     display: flex; }
     #macos .window .window-top.large {
-      height: 2.85rem;
+      height: 3.25rem;
       padding: 0.5rem 0.75rem; }
-      #macos .window .window-top.large .window-actions-icon > div {
-        margin: 0.5rem 0.25rem; }
     #macos .window .window-top .window-actions-icon {
       display: flex;
-      flex-flow: row; }
+      flex-flow: row;
+      align-items: center;
+      padding: 0.5rem; }
       #macos .window .window-top .window-actions-icon > div {
+        flex: 0 0 auto;
         width: 0.75rem;
         height: 0.75rem;
         border-radius: 50%;
-        margin: 0.25rem 0.25rem;
         background: rgba(255, 255, 255, 0.2); }
         #macos .window .window-top .window-actions-icon > div.red {
           background: #ff3b4b; }
         #macos .window .window-top .window-actions-icon > div.yellow {
-          background: #ffbc00; }
+          background: #ffbc00;
+          margin: 0rem 0.5rem; }
         #macos .window .window-top .window-actions-icon > div.green {
           background: #00d541; }
     #macos .window .window-top .window-icons {
       flex: 0 0 auto;
       display: flex;
-      align-items: center; }
+      align-items: center;
+      padding: 0 0.5rem; }
       #macos .window .window-top .window-icons .icon-button {
-        font-size: 0.875rem;
-        padding: 0.1rem 0.5rem;
+        padding: 0.1rem 0.6rem;
         border-radius: 3px;
         margin: 0.25rem;
-        color: white; }
+        color: rgba(255, 255, 255, 0.7); }
         #macos .window .window-top .window-icons .icon-button:hover {
           background: rgba(255, 255, 255, 0.1); }
+        #macos .window .window-top .window-icons .icon-button:active {
+          background: rgba(255, 255, 255, 0.15);
+          color: white; }
     #macos .window .window-top .url-input {
-      flex: 1 0 300px;
-      width: auto; }
+      flex: 10 0 auto;
+      width: auto;
+      align-items: center; }
       #macos .window .window-top .url-input input {
         background: rgba(255, 255, 255, 0.1);
         width: 100%;
@@ -303,8 +308,12 @@ html {
         border-radius: 5px;
         line-height: 1.5rem;
         color: white;
+        outline: none;
+        box-shadow: 0px 0px 20px 0px transparent;
         text-align: center;
-        outline: none; }
+        transition: 0.2s all ease; }
+        #macos .window .window-top .url-input input:focus {
+          box-shadow: 0px 0px 2px 2px red; }
   #macos .window .window-tabs {
     flex: 1 1 auto;
     background: rgba(15, 15, 15, 0.8);
@@ -363,6 +372,9 @@ html {
           bottom: calc(-0.625rem + 2px);
           left: calc(50% - 2px); }
         #macos .dock-outside .dock-container .dock .icon-container .icon {
+          -webkit-backface-visibility: hidden;
+          outline: 1px solid transparent;
+          image-rendering: auto;
           border-radius: 0.25em;
           width: calc(var(--icon-size) + 0.5rem);
           height: var(--icon-size);
@@ -463,25 +475,27 @@ html {
 
 #window-2.window {
   left: 100px;
-  top: 100px;
-  width: 600px;
-  height: 300px; }
+  top: 100px; }
 
 .window.safari .window-container {
   background-color: white; }
 
-.window.terminal .window-container {
-  color: white;
-  padding: 0.1rem 0.125rem;
-  font-size: 1rem;
-  letter-spacing: 2px; }
-  .window.terminal .window-container .cursor-blink {
-    vertical-align: top;
-    width: 0.5rem;
-    height: 1.1rem;
-    background: white;
-    display: inline-block;
-    animation: blink-animation 1s steps(2, start) infinite; }
+.window.terminal {
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px); }
+  .window.terminal .window-container {
+    background: rgba(0, 0, 0, 0.5);
+    color: white;
+    padding: 0.1rem 0.125rem;
+    font-size: 1rem;
+    letter-spacing: 2px; }
+    .window.terminal .window-container .cursor-blink {
+      vertical-align: top;
+      width: 0.5rem;
+      height: 1.1rem;
+      background: white;
+      display: inline-block;
+      animation: blink-animation 1s steps(2, start) infinite; }
 
 @keyframes blink-animation {
   to {
