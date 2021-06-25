@@ -355,8 +355,12 @@ openWindowButtons.forEach(btn => {
   let elemWindow = root.querySelector(btn.getAttribute("open"));
   if(elemWindow){
     btn.addEventListener("click", (e) => {
+      if(elemWindow.classList.contains("closed")){
       elemWindow.classList.remove("closed");
-      elemWindow.classList.remove("minimized");
+      }else{
+        elemWindow.classList.toggle("minimized");
+      }
+
       setActiveWindow(elemWindow);
     })
   }
