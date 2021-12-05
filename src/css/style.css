@@ -789,7 +789,6 @@ html {
 
 #macos .dock-outside {
   width: 100%;
-  font-size: var(--icon-size);
   bottom: 0.25rem;
   left: 0px;
   position: absolute;
@@ -809,9 +808,11 @@ html {
       #macos .dock-outside .dock-container .dock .icon-container {
         margin-top: 0.125em;
         margin-bottom: 0.25em;
-        width: calc(var(--icon-size) + 0.5rem);
+        width: var(--icon-size);
         text-align: center;
-        position: relative; }
+        position: relative;
+        margin-left: 0.25rem;
+        margin-right: 0.25rem; }
         #macos .dock-outside .dock-container .dock .icon-container.has-dot:after {
           content: "";
           display: block;
@@ -827,15 +828,13 @@ html {
           outline: 1px solid transparent;
           image-rendering: auto;
           border-radius: 0.25em;
-          width: calc(var(--icon-size) + 0.5rem);
+          width: var(--icon-size);
           height: var(--icon-size);
           position: relative;
           transform-origin: 0% 100%;
-          background-size: calc(var(--icon-size) + 6px) calc(var(--icon-size) + 6px);
+          background-size: calc(var(--icon-size) + 8px) calc(var(--icon-size) + 8px);
           background-position: -3px -3px;
-          background-origin: content-box;
-          padding-left: 0.25rem;
-          padding-right: 0.25rem; }
+          background-origin: content-box; }
           #macos .dock-outside .dock-container .dock .icon-container .icon.safari {
             background-image: url(./../icons/safari-2021-06-02.png); }
           #macos .dock-outside .dock-container .dock .icon-container .icon.folder {

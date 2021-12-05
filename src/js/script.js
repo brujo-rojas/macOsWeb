@@ -21,6 +21,31 @@ let scaleMagnificent = 2;
 let lastMouseX       = 0;
 let isMouseOnDock    = false;
 
+let scaleMultiplier = 1;
+let radMultiplier = 1;
+
+let refreshIconSize = function (e, iconContainer) {
+  let icon = iconContainer.children[0];
+  let mouseX = e.clientX;
+  let iconX = icon.getBoundingClientRect().x; //left of icon
+  iconX += icon.getBoundingClientRect().width / 2; //centered icon
+  let diffpx = mouseX - iconX;
+  let scale = 1;
+  let rad = 1;
+  
+  if(Math.abs(diffpx) <  (5*iconSize * radMultiplier) ){
+    rad =  diffpx / iconSize * 0.5 / radMultiplier;
+    scale = 1 + Math.cos(rad);
+    scale *= scaleMultiplier;
+    scale = scale > 1 ? scale : 1;
+  }
+
+
+  iconContainer.style.width = scale * iconSize + "px";
+  icon.style.transform = "scale(" + Math.abs(scale) + ")";
+}
+
+/*
 let refreshIconSize = function (e, iconContainer) {
   let icon            = iconContainer.children[0];
   let mouseX          = e.clientX;
@@ -35,11 +60,16 @@ let refreshIconSize = function (e, iconContainer) {
   iconContainer.style.width = "calc("+iconScale * iconSize + "px + "+ (iconScale * 0.5 )+"rem)"; 
 
   icon.style.transform = "scale(" + iconScale + ")";
-};
+};*/
+
+
+
+
 
 let refreshDock = function (e) {
   let mouseX = e.clientX;
   if(mouseX != lastMouseX){
+    /*
     let dockX = dock.getBoundingClientRect().x;
     let dockWidth = dock.getBoundingClientRect().width;
     let diffMax = space ;
@@ -59,6 +89,7 @@ let refreshDock = function (e) {
     let paddingTop = iconSize * scaleMagnificent + "px";
     dock.style.cssText = "margin-left:"+marginLeft+"; margin-right:"+marginRight+"; padding-top:"+paddingTop;
     //dock.style.paddingRight = iconSize * scaleMagnificent*0.5 + "px";
+    //*/
     icons.forEach((iconContainer) => refreshIconSize(e, iconContainer));
     /*setTimeout(() => {
       dock.classList.remove("clear");
@@ -73,7 +104,7 @@ let clearDock = function () {
   dock.style.transform = "scaleY(1)";
   icons.forEach((iconContainer) => {
     let icon = iconContainer.children[0];
-    iconContainer.style.width = "calc("+iconSize + "px + 0.5rem)";
+    iconContainer.style.width = "calc("+iconSize + "px )";
     icon.style.transform = "scale(1)";
     dock.style.paddingTop = "0px";
     dock.style.marginLeft = "0px";

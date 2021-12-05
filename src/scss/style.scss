@@ -1046,7 +1046,7 @@ html {
   .dock-outside {
     //background: rgba(100, 0, 0, 0.3);
     width: 100%;
-    font-size: var(--icon-size);
+    //font-size: var(--icon-size);
     bottom: 0.25rem;
     left: 0px;
     position: absolute;
@@ -1083,9 +1083,13 @@ html {
         .icon-container {
           margin-top: 0.125em;
           margin-bottom: 0.25em;
-          width: calc(var(--icon-size) + 0.5rem);
+          width: var(--icon-size);
           text-align: center;
-          position: relative;
+          position: relative; 
+
+            margin-left: 0.25rem;
+            margin-right: 0.25rem;
+
 
           &.has-dot:after {
             content: "";
@@ -1107,17 +1111,14 @@ html {
 
 
             border-radius: 0.25em;
-            width: calc(var(--icon-size) + 0.5rem);
+            width: var(--icon-size);
             height: var(--icon-size);
             position: relative;
             transform-origin: 0% 100%;
-            background-size: calc(var(--icon-size) + 6px)
-              calc(var(--icon-size) + 6px);
+            background-size: calc(var(--icon-size) + 8px)
+              calc(var(--icon-size) + 8px);
             background-position: -3px -3px;
             background-origin: content-box;
-
-            padding-left: 0.25rem;
-            padding-right: 0.25rem;
 
             &.safari{
               background-image: url(./../icons/safari-2021-06-02.png);
